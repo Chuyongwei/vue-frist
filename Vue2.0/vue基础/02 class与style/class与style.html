@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .a{
+            background-color: #00ccff;
+        }
+    </style>
+</head>
+
+<body>
+<div id="box">
+    <button @click="handleClick()">change</button>
+    <div :class="classobj">
+        我是动态切换class- 对象写法
+    </div>
+    <div :class="classarr">
+        我是动态切换class- 数组写法
+    </div>
+
+
+    <div style="background: red">我是静态的style</div>
+
+    <div :style="styleobj">我是动态切换style--对象写法</div>
+
+    <div :style="stylearr">我是动态切换style--数组写法</div>
+
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+ var vm = new Vue ({
+     el :"#box",
+     data: {
+         classobj :{
+             a:true,
+             b: true,
+             c:false
+         },
+         classarr:["a","b"],
+         styleobj:{
+             backgroundColor:"red"
+         },
+         stylearr:[{backgroundColor:"red"}]
+     }
+ })
+</script>
+</body>
+</html>

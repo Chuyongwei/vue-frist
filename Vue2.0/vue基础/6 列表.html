@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id = "box">
+    <ul>
+        <li v-for="(data,index) of datalist">
+            {{data}}--{{index}}
+        </li>
+    </ul>
+    <ul>
+        <li v-for="(data,index) of obj">
+            {{data}}--{{index}}
+        </li>
+    </ul>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#box",
+        data :{
+            datalist:["111","2222","333"],
+            obj:{
+                name:"fff",
+                age:100
+            }
+        }
+    })
+</script>
+</body>
+</html>

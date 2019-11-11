@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body style="background-color: #93b5c0">
+<div id="box">
+
+    <p>父组件</p>
+    <child @myevent="handleChild"></child>
+
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    Vue.component("child",{
+        template:"<nav>child" +
+            "<button @click='handleEvent'>chilck</button>" +
+            "</nav>",
+        data(){
+            return{
+                momney:100
+            }
+        },
+        methods: {
+            handleEvent() {
+                this.$emit("myevent",this.momney)
+            }
+        }
+    })
+
+
+    var vm = new Vue({
+        el:"#box",
+        data:{
+            text:"来自父组件的叮嘱"
+        },
+        methods:{
+            handleChild(data) {
+                console.log("等待子组件传来状态" ,data)
+            }
+        }
+    })
+</script>
+</body>
+</html>

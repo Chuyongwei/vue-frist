@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .active{
+            background: red;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <!-- <ul>
+       <li v-for="item,index in datalist">
+         {{item}}
+       </li>
+    </ul> -->
+
+    <!--  <ul>
+       <li :class="isActive1?'active':''">正在热映</li>
+       <li :class="isActive2?'active':''">即将上映</li>
+     </ul> -->
+
+
+    <ul>
+        <li v-for="data,index in datalist" :class="current===index?'active':''" @click="handleClick(index)?'active':''">
+            {{data}}---{{index}}
+        </li>
+    </ul>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#box",
+        data:{
+            datalist:["111","222","333"],
+            current:0
+        },
+        methods:{
+            handleClick(index) {
+                console.log(index);
+                this.current = index;
+            }
+        }
+    })
+</script>
+</body>
+</html>

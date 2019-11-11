@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id = "box">
+    <p>{{count}}</p>
+    <button @click="handleChlick1()">click1-听过函数调用</button>
+    <button @click="handleChlick2">click2-听过函数名调用</button>
+    <button @click="count++">click3-通过表达式</button>
+    <input type="text" @input="handleInput($event)" />
+
+    <ul @click.self="hanndle()">
+        <li @click.stop="hanndle1()">
+            222222222222
+        </li>
+        <li @click.once="hanndleLiClick3()">33333333333333</li>
+    </ul>
+    <a href="www.baidu.com" @click.prevent="handleAClick()"></a>
+
+    <button @click="isActive && handleBind()">时间解绑</button>
+    <p>todolist<input type="text" @keydown.enter="handleKeyDown"/></p>
+<!--    @keydown.13 = -->
+</div>
+
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js">跳转页面</script>
+<script>
+    var vm = new Vue({
+        el:"#box",
+        data:{
+            count:1,
+            isActive:true
+        },
+        methods:{
+            handleChlick1(){
+                this.count++;
+            },
+            handleChlick2() {
+                this.count++;
+            },
+            handleInput(ev,data) {
+                console.log(ev.target.value)
+            },
+
+            hanndle() {
+                console.log("hanndle")
+            },
+
+            hanndle1() {
+                console.log("hanndle1")
+            },
+            handleAClick() {
+                console.log("handleAClick")
+            },
+
+            hanndleLiClick3(){
+                console.log("hanndleLiClick3")
+            },
+            handleBind() {
+                console.log("handleBind")
+            },
+            handleKeyDown(ev) {
+                console.log("handleKeyDown",ev.keyCode().target.value);
+            }
+        }
+    })
+</script>
+</body>
+</html>

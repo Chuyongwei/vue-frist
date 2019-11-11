@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <link href="https://cdn.bootcss.com/Swiper/4.5.1/css/swiper.css" rel="stylesheet">
+    <style>
+        .swiper-container {
+            width: 600px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="data,index in list">
+                {{data}}
+            </div>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+
+    </div>
+
+</div>
+<script src="https://cdn.bootcss.com/Swiper/4.5.1/js/swiper.js"></script>
+x
+<script type="text/javascript">
+
+    new Vue({
+        el:"#box",
+        data:{
+            list:[]
+        },
+
+        mounted(){
+
+            setTimeout(() => {
+                this.list = ["111","2222","3333"];
+
+                // 黑魔法
+                this.$nextTick(()=>{
+                    console.log("我待会才会执行")
+
+                    var mySwiper = new Swiper ('.swiper-container', {
+                        // direction: 'vertical', // 垂直切换选项
+                        // 如果需要分页器
+                        pagination: {
+                            el: '.swiper-pagination',
+                        }
+                    })
+                })
+                console.log("节点创建完了？？？？","没有，异步渲染")
+            }, 2000)
+        },
+
+        updated(){
+            console.log("updated");
+
+        }
+
+    })
+
+
+
+</script>
+</body>
+</html>

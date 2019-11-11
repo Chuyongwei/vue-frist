@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id = "box">
+<input type="text" @input="handleInput()" v-model="mytext"/>
+<ul>
+    <li v-for="(data,index) of datalist" :key="data" >
+        {{data}}--{{index}}
+    </li>
+</ul>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#box",
+        data :{
+            datalist:["111","2222","333"],
+            list:["111","2222","333"],
+            obj:{
+                name:"fff",
+                list:"",
+                age:100,
+                mytext: ""
+            }
+        },
+        methods:{
+            handleInput() {
+                console.log(this.mytext)
+                this.datalist = this.list.filter(items=>items.indexOf(this.mytext) > -1);
+                console.log(this.datalist)
+            }
+        }
+    })
+
+    var arr = [1,2,3,4]
+    var arr2 = ["aaa","bbb","ccc"]
+    //var newarr = arr.filter(items =>items>2)
+    var newarr = arr2.filter(items=>items.indexOf("a") > -1);
+    console.log(newarr)
+</script>
+</body>
+</html>

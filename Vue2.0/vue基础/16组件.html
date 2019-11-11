@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="box">
+    <navbar></navbar>
+    <navbar></navbar>
+    <navbar></navbar>
+    <navbar></navbar>
+    <sidbar></sidbar>
+
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    Vue.component("comchildbar",{
+        template:'<div>comchild-公共孩子</div>'
+    })
+    Vue.component("navbar",{
+        template:"<nav>" +
+            "<button @click='handleBack'>返回</button>" +
+            "<span style='background-color: red'>标题-{{title}}</span>" +
+            "<button>主页</button>" +
+            "<comchildbar></comchildbar>"+
+            "<navchild></navchild>"+
+            "</nav>",
+        data(){
+            return{
+                title:"卖座"
+            }
+        },
+
+        computed:{
+
+        },
+
+        components:{
+            navchild:{
+                template:"<div>childbar组件</div>"
+            }
+        },
+        methods:{
+            handleBack(){
+                console.log("hand")
+            }
+        },
+
+        watch:{
+
+        }
+    })
+
+    Vue.component("sidbar",{
+        template: "<ul>" +
+            "<li>hhh</li>" +
+            "</ul>"
+    })
+
+    var vm = new Vue({
+        el:"#box",
+        data:{
+
+        }
+    })
+</script>
+</body>
+</html>

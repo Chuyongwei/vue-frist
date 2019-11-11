@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body style="background-color: #93b5c0">
+<div id="box">
+    <navbar myname="首页" :word="text" :myshow="false"></navbar>
+    <navbar myname="列表"  :word="text" :myshow = "true"></navbar>
+    <navbar myname="购物车"  :word="text" :myshow="false"></navbar>
+
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+
+    Vue.component("navbar",{
+        template:"<nav>" +
+            "<button @click='handleBack'>返回</button>" +
+            "<span style='background-color: red'>{{title}}--{{myname}}</span>" +
+            "<button v-show='myshow'>主页</button>" +
+            "<p>{{word}}</p>" +
+            "</nav>",
+        //描述dom结构
+        // props:["myname","word","myshow"],
+
+        //验证dom结构
+        props:{
+          myname: String,
+          word : String,
+            myshow:Boolean
+        },
+        data(){
+            return{
+                title:"卖座"
+            }
+        },
+
+        components:{
+            navchild:{
+                template:"<div>childbar组件</div>"
+            }
+        },
+        methods:{
+            handleBack(){
+                console.log("hand")
+            }
+        },
+
+    })
+
+    var vm = new Vue({
+        el:"#box",
+        data:{
+            text:"来自父组件的叮嘱"
+        }
+    })
+</script>
+</body>
+</html>

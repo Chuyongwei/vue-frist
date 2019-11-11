@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="box">
+
+    <p>navbar</p>
+    <navbar @myevent = "handleEvent()"></navbar>
+    <sidebar v-show='isShow'></sidebar>
+
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    Vue.component("navbar",{
+        template:"<div>"+
+                "navbar" +
+                "<button @click='handleCilck()'>show/hide</button>" +
+                "</div>",
+
+        methods: {
+            handleCilck(){
+                this.$emit("myevent");
+            }
+        }
+    })
+
+    Vue.component("sidebar",{
+        template:"<div style='background-color: yellowgreen;width: 200px;'>"+
+            "sidervar" +
+            "<ul >" +
+            "<li>111</li>" +
+            "<li>22222</li>" +
+            "<li>333333</li>" +
+            "</ul>" +
+            "</div>",
+
+    })
+
+    var vm = new Vue({
+        el:"#box",
+        data:{
+            isShow: true
+        },
+        methods:{
+            handleEvent(){
+                this.isShow = !this.isShow
+            }
+        }
+    })
+</script>
+</body>
+</html>

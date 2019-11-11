@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id = "box">
+    <input type="text" v-model="name"/>1111
+
+    <textarea v-model="mytext"></textarea>
+
+    记住用户名<input type="checkbox" v-model="isChecked">
+    <input type="checkbox" v-model="checkedgroup" value="vue">vue
+    <input type="checkbox"  v-model="checkedgroup" value="react">react
+    <input type="checkbox" name="value" v-model="checkedgroup" value="jquery">jquery
+    <p>{{checkedgroup}}</p>
+    <input type="radio" v-model="picked" name="favor" value="vue">vue
+    <input type="radio" v-model="picked" name="favor" value="react">react
+    <input type="radio" v-model="picked" name="favor" value="jquery">jquery
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js">跳转页面</script>
+<script>
+    var vm = new Vue({
+        el:"#box",
+        data: {
+            name:"xiaoming",
+            mytext:"11111",
+            isChecked :false,
+            checkedgroup:["vue","react"],
+            picked:"",
+            picked: ""
+        }
+
+    })
+</script>
+</body>
+</html>

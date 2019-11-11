@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="box">
+    <button @click="mythodA">click</button>
+    <div v-if="isShow"><b>1111111</b></div>
+    <div v-else><b>222222</b></div>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    function complexMethod() {
+        console.log("执行了复杂方法")
+    }
+
+    var obj = {
+        methods: {
+            mythodA() {
+                console.log("mymethodsA")
+            },
+            mythodB() {
+                console.log("mymethodsB")
+            },
+            mythodC() {
+                console.log("mymethodsC")
+            },
+        }
+    }
+    var vm = new Vue({
+        el:"#box",
+        data:{
+            name:"vue定义的name",
+            isShow:true
+        },
+        methods:{
+            mymethod:complexMethod,
+            mythodA(){
+                console.log("vue中的mythodsA")
+            }
+        },
+        mixins:[obj]
+    })
+</script>
+</html>

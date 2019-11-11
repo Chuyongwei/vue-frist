@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .kerwinfade-enter-active, .kerwinfade-leave-active {
+            transition: all 1.5s;
+        }
+        .kerwinfade-enter, .kerwinfade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0px);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id = "box">
+    <input type="text" v-model="mytext"/>
+    <button @click="handleClick">add</button>
+    <ul>
+        <li v-for="(data ,index) of datalist">
+            {{data}}--{{index}}
+            <button @click="handleDel(index)">del</button>
+        </li>
+    </ul>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    new Vue({
+        el:"#box",
+        data:{
+            datalist:[],
+            mytext:""
+        },
+        methods:{
+            handleClick(){
+                this.datalist.push(this.mytext)
+                console.log(this.mytext)
+                this.mytext=""
+            },
+            handleDel(index){
+                this.datalist.splice(index,1)
+            }
+        }
+    })
+</script>
+</body>
+</html>

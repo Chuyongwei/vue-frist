@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id = "box">
+    <swiper>
+        <ul>
+            <li>1111</li>
+            <li>2222</li>
+            <li>3333</li>
+        </ul>
+    </swiper>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    Vue.component("swiper",{
+        template:"<div>" +
+            "<div>ihiuhiou</div>" +
+            "<slot></slot>" +
+            "</div>",
+    })
+    var mv = new Vue({
+        el:"#box",
+
+    })
+</script>
+</body>
+</html>

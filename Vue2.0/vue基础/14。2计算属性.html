@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id = "box">
+    <p>单价<input type="text" v-model="price"></p>
+    <p>数量<input type="text" v-model="number"></p>
+    <p>金额计算{{computedsum}}</p>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js">跳转页面</script>
+<script>
+    var vm = new Vue ({
+        el:"#box",
+        data:{
+            price:100,
+            number:13,
+            sum:0
+        },
+        computed:{
+            computedsum(){
+                var sum= 0
+                if(this.price*this.number<1000) {
+                    sum = this.price*this.number+100;
+                } else {
+                    sum = this.price*this.number;
+                }
+                return sum;
+            }
+        },
+        watch:{
+            price() {
+                console.log("价格变了")
+                if(this.price*this.number<1000) {
+                    this.sum = this.price*this.number+100;
+                } else {
+                    this.sum = this.price*this.number;
+                }
+            },
+            number() {
+                console.log("价格变了")
+                if(this.price*this.number<1000) {
+                    this.sum = this.price*this.number+100;
+                } else {
+                    this.sum = this.price*this.number;
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="box">
+    <input type="text" ref="mytext"/>
+    <button @click="handleClick()">click</button>
+    <child ref="mycomponment"></child>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    Vue.component("child",{
+        template:"" +
+            "<div>组件</div>",
+        data() {
+            return{
+                title:"child title"
+            }
+        },
+        methods: {
+            getValue(data) {
+                console.log("从父组件传来的值",data)
+            }
+        }
+    })
+
+    var vm = new Vue({
+        el:"#box",
+        data:{
+            isShow: true
+        },
+        methods: {
+            handleClick() {
+                // console.log(this.$refs.mytext.value)
+                console.log(this.$refs.mycomponment.title)
+                this.$refs.mycomponment.getValue(this.$refs.mytext.value)
+            }
+        }
+    })
+</script>
+</body>
+</html>

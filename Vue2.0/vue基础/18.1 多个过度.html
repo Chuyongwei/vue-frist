@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.css" rel="stylesheet">
+    <style>
+        .kerwinfade-enter-active, .kerwinfade-leave-active {
+            transition: all 1.5s;
+        }
+        .kerwinfade-enter, .kerwinfade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0px);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <button @click="isShow= !isShow">click</button>
+
+    <transition name="bounce" mode="out-in">
+        <div v-if="isShow" key="1">111111</div>
+        <div v-else key="2">222222</div>
+    </transition>
+</div>
+
+<script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+<script>
+    new Vue({
+        el:"#box",
+        data:{
+            isShow:"true"
+        }
+    })
+</script>
+</body>
+</html>
