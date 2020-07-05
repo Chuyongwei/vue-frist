@@ -1,0 +1,28 @@
+@import "./var.less";
+*{
+    padding: 0px;
+    margin: 0px;
+    background-color: @dark;
+}
+/*Chrome下隐藏滚动条，溢出可以透明滚动*/
+// ::-webkit-scrollbar{
+//     width:0px
+// }
+.app{
+    max-width: 750px;
+    margin: 0 auto;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: @light;
+    overflow: hidden;
+    *{
+        background-color: @light;
+    }
+}
+
+@import "./nav.less";
+@import "./content.less";
+@import "./footer.less";

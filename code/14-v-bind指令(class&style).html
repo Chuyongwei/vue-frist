@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .fs{
+            font-size: 24px;
+        }
+        .fc{
+            color: red;
+        }
+        .bc{
+            background-color: #cccccc;
+        }
+        .border{
+            border: 1px solid black;
+        }
+        body{
+            margin-bottom: 400px;
+        }
+        .success{
+            color:green;
+        }
+        .error{
+            color: red;
+        }
+    </style>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>style类型属性</p>
+        <!-- 
+            语法方式： v-bind:style=" string|Object|Array "
+                string:直接以传统行内样式进行定义即可
+                Object:以对象变量的方式描述标签需要装载的行内样式
+                        key 描述样式名称 = 样式名称为多个字母构成，定义时可以使用两种定义方式
+                            1、连字符，连字符样式名称需要被引号包裹
+                            2、驼峰
+                        value 对应样式的合法取值
+                Array:是以数组方式，快速动态拼接样式
+                        数组的元素的取值一定是一个可以转换为 样式字符串的 对象取值
+        -->
+        <p style="color:red;background-color: #cccccc;" >传统样式定义</p>
+        <p :style=" styleStr " >绑定style-string</p>
+        <p :style=" 'color:'+color+';background-color: #cccccc;' " >绑定style-string</p>
+        <p :style=" `color:${ color };background-color: #cccccc;` " >绑定style-string</p>
+        <input type="color" @change="setColor($event.target.value)">
+        <hr>
+        <p :style=" styleObj " >绑定style-object</p>
+        <input type="color" @change=" styleObj.color=$event.target.value ">
+        <input type="color" @change=" styleObj.backgroundColor=$event.target.value ">
+        <hr>
+        <p :style=" styleArr ">绑定style-array</p>
+        <p :style=" [ styleFont,styleBack ] ">绑定style-array</p>
+        <hr>  
+        <p>class类型属性</p>
+        <!-- 
+            语法方式： v-bind:class=" string|Object|Array "
+                string:直接以传统class定义规则，定义字符串即可
+                Array:在数组中以字符串的方式，描述该标签需要绑定的class样式名称
+                      v-bind 会完成一个隐式迭代，拼接样式字符串
+                Object:动态快速控制元素的切换
+                        key 当前元素可能修改绑定的class样式名称
+                        value 只能取值boolean类型 ，true表示该样式需要加载 false表示该样式不需要加载
+        -->
+        <p class="fc fs bc border">传统class定义</p>
+        <p :class=" classStr ">class绑定-string</p>
+        <input type="button" value="添加边框" @click=" classStr = classStr+' border' ">
+        <input type="button" value="删除fs样式" @click="removeFs()">
+        <hr>
+        <p :class=" classArr ">class绑定-array</p>
+        <input type="button" value="添加边框" @click=" addClassArr() ">
+        <input type="button" value="删除fs样式" @click="removeArrFs()">
+        <hr>
+        <p :class=" classObj ">class绑定-object</p>
+        <input type="button" value="切换字体颜色" @click=" classObj.fc = !classObj.fc ">
+        <input type="button" value="切换背景颜色" @click=" classObj.bc = !classObj.bc ">
+        <input type="button" value="切换字体大小" @click=" classObj.fs = !classObj.fs ">
+        <input type="button" value="切换边框" @click=" classObj.border = !classObj.border ">
+        <hr>
+        <p>msg:{{ msg }}</p>
+        <input 
+            type="text" 
+            @input=" msg=$event.target.value "
+            :class=" msg.length>=6&&msg.length<=10?'success':'error' "
+        >
+        <span class="success" v-show=" msg.length>=6&&msg.length<=10 ">符合规则</span>
+        <span class="error" v-show=" msg.length<6||msg.length>10 ">必须大于6位，小于10位</span>
+        <hr>
+        <input 
+            type="text" 
+            @input=" msg=$event.target.value "
+            :class=" {
+                success:msg.length>=6&&msg.length<=10,
+                error:msg.length<6||msg.length>10
+            } "
+        >
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            styleStr:"color:red;background-color:#cccccc;",
+            color:"red",
+            styleObj:{
+                color:"red",
+                backgroundColor:"#cccccc",
+                "border-bottom":"1px solid black"
+            },
+            styleArr:[
+                {
+                    color:"red"
+                },
+                {
+                    backgroundColor:"#cccccc"
+                }
+            ],
+            styleFont:{
+                fontSize:"20px",
+                color:"red"
+            },
+            styleBack:{
+                backgroundColor:"#ccc"
+            },
+            classStr:"testfs fc fs bc",
+            classArr:["testfs","fc","fs","bc"],
+            // classArr:new Set(["fc","fs","bc"])
+            classObj:{
+                fc:true,
+                fs:false,
+                bc:true,
+                border:false
+            },
+            msg:""
+        },
+        methods:{
+            setColor(arg){
+                console.log(arg);
+                this.color = arg;
+            },
+            removeFs(){
+                // this.classStr = this.classStr.replace("fs","");
+                this.classStr = this.classStr.replace(/fs/g,"");
+
+            },
+            addClassArr(){
+                this.classArr.push("border");
+                // this.classArr.add("boder");
+            },
+            removeArrFs(){
+                var i = this.classArr.indexOf("fs");
+                this.classArr.splice(i,1)
+            }
+        }
+    });
+
+</script>
+</html>

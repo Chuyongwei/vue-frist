@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 定义不需要被解释为 组件的 自定义标签
+        Vue.config.ignoredElements = [
+            "aaa", // 定义被忽略的标签名称
+            /^icon-/
+        ]
+    </script>
+</head>
+<body>
+    <div id="app">
+        <h1>info:{{ info }}</h1>
+        <hr>
+        <hello></hello>
+        <hr>
+        <hello></hello>
+        <hr>
+        <hello></hello>
+        <hr>
+        <comp></comp>
+        <hr>
+        <aaa>asdasd</aaa>
+        <icon-a>asdasd</icon-a>
+        <icon-b>asdasd</icon-b>
+    </div>
+
+    <div id="root">
+        <hello></hello>
+    </div>
+
+    <template id="hello">
+        <div itany="aaaa">
+            <h1>msg:{{ msg }}</h1>
+            <input type="text" v-model="msg">
+        </div>
+    </template>
+
+</body>
+<script>
+    // vue组件化的目的，是为了通过继承函数(extend)方式，完成功能、样式、结构的整体封装
+    // 并将该子构造器，作为创建一个 自定义页面标签的 构成方法，完成对HTML标签扩展
+    const hello = Vue.extend({
+        // template:"<h1>{{ msg }}</h1>",
+        template:"#hello",
+        data(){
+            return {
+                msg:"hello 组件"
+            }
+        }
+    });
+
+    // 将构造器定义 为 一个 可以在vue容器中使用的  自定义的 HTML 标签
+    // Vue.component(id,definition);
+    //      id=name 描述组件自定义的标签名称,标签名称要唯一
+    //      definition 
+    //          1、描述组件的构成函数构造器 Vue.extend 的返回结果
+    //          2、直接在调用 component 方法时，直接传入 组件配置项
+    //              可以直接将 extend(options) 方法所需要的 options 参数定义在compont方法中
+    Vue.component("hello",hello);
+
+    // Vue.compoent 方法本身会对第二参数进行判断
+    //      1、如果传入的参数是一个构造器，会直接以构造器方式创建实例
+    //      2、如果传入的参数是一个配置对象，会隐式调用 Vue.extend()方法进行构造器的执行
+    Vue.component("comp",{
+        template:"<h1>{{ msg }}</h1>",
+        data(){
+            return {
+                msg:"测试数据"
+            }
+        }
+    });
+    new Vue({
+        el:"#app",
+        data:{
+            info:"new Vue 数据"
+        }
+    });
+
+    new Vue({
+        el:"#root"
+    })
+</script>
+</html>

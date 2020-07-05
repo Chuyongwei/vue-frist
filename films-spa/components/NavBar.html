@@ -1,0 +1,27 @@
+<template>
+    <!-- 头部搜索框 start -->
+    <nav class="nav-box">
+        <div class="nav-input">
+            <input id="userInput" type="text" @blur="changeShowBtn(false)" @focus="changeShowBtn(true)">
+        </div>
+        <div v-show="showBtn" class="nav-btn">
+            <span>搜索</span>
+        </div>
+    </nav>
+    <!-- 头部搜索框 end -->
+</template>
+<script>
+    const NavBar = Vue.extend({
+        template:document.currentScript.ownerDocument.querySelector("template"),
+        data(){
+            return {
+                showBtn:false
+            }
+        },
+        methods: {
+            changeShowBtn(arg){
+                this.showBtn = arg;
+            }
+        },
+    });
+</script>

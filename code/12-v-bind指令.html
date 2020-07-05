@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-bind:id="id">绑定ID属性</p>
+        <input type="button" value="修改ID属性" @click=" id='新值' ">
+        <p :itany="id">绑定自定义属性</p>
+        <hr>
+        <!-- 
+            html语法是忽略大小写的语法 
+            v-bind绑定属性是，如果存在驼峰属性
+            需要将该属性转为 连字符方式
+            innerHTML => inner-html
+            innerText => inner-text
+
+            1、基本使用上用于绑定 html属性
+            2、增加 .prop 修饰符后 用于绑定 DOM属性
+                vue中只能绑定部分 DOM 属性
+        -->
+        <div :innerHTML="str"></div>
+        <div :inner-html="str"></div>
+        <div :inner-html.prop="str"></div>
+        <hr>
+        <!-- 有些DOM属性是不能被绑定 -->
+        <div :client-height.prop=" 100 ">100</div>
+        <hr>
+        <p :itany=" id " @click="printItany($event.target)">绑定dom属性 itany</p>
+        <p :user-name.camel=" id ">绑定dom属性</p>
+        <hr>
+        <p :itany.prop=" id " @click="printItany1($event.target)">绑定dom属性 itany</p>
+        <p :user-name.prop=" id " @click="printName($event.target)">绑定dom属性 itany</p>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            id:"测试ID",
+            str:"<p>字符串的p标签</p>"
+        },
+        methods:{
+            printItany(pDom){
+                console.log(pDom.getAttribute("itany"))
+            },
+            printItany1(pDom){
+                console.log(pDom.itany)
+            },
+            printName(pDom){
+                console.log(pDom.userName);
+            }
+        }
+    })
+
+</script>
+</html>

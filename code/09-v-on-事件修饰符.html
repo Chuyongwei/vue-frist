@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        .div1 {
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+        }
+
+        .div2 {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+        }
+
+        .div3 {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+        }
+
+        .div4 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+
+        .div5 {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <a href="https://www.baidu.com" @click="stopDefault($event)">百度</a><br>
+        <a href="https://www.baidu.com" @click.prevent="printMsg()">百度</a><br>
+        <a href="https://www.baidu.com" @click.prevent >百度</a><br>
+        <hr>
+        <div class="div1" @click="printName('div1')">
+            div1
+            <div class="div2" @click.stop="printName('div2')">
+                div2
+                <div class="div3" @click="printName('div3')">
+                    div3
+                    <div class="div4" @click.self="printName('div4')">
+                        div4
+                        <div class="div5" @click="printName('div5')">
+                            div5
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="div1" @click.capture="printName('div1')">
+                div1
+                <div class="div2" @click.capture="printName('div2')">
+                    div2
+                    <div class="div3" @click.capture.stop.self="printName('div3')">
+                        div3
+                        <div class="div4" @click.capture="printName('div4')">
+                            div4
+                            <div class="div5" @click.capture="printName('div5')">
+                                div5
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script>
+
+        new Vue({
+            el: "#app",
+            methods: {
+                stopDefault(e){
+                    e.preventDefault();
+                },
+                printMsg(){
+                    console.log("msg")
+                },
+                printName(name){
+                    console.log(name);
+                }
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

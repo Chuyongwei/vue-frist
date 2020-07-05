@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    
+</body>
+<script>
+    // vue的构造器集成语法，依赖于全局方法  Vue.extend(options)
+    // Vue.extend(options) 用于返回一个具有固定配置的vue实例构造模板 
+    //      options 参数 就是创建vue时所依赖的配置
+    var Fun = Vue.extend({
+        methods:{
+            print(){
+                console.log("print");
+            }
+        },
+        filters:{},
+        directives:{},
+        beforeCreate() {
+            
+        },
+    });
+    /*
+        通过 Vue.extend() 方法返回的结果进行对比，
+        返现返回的结果为一个 方法，且方法的调用了 vm._init 初始化vue实例的执行方法
+        内部的调用方式，和vue提供全局构造函数一样，都调用 vm._init 方法
+    */
+    // console.log("Fun:",Fun);
+    // console.log("Vue:",Vue);
+
+    // 通过 Vue.extend() 返回的构造器创建的实例和 new Vue 创建的实例实际都是vue的实例
+    var vm2 = new Fun();
+    var vm4 = new Fun();
+
+    var vm1 = new Vue({
+        methods: {
+            show(){
+                console.log(1);
+            }
+        },
+    });
+    var vm3 = new Vue({
+        methods: {
+            show(){
+                console.log(1);
+            }
+        },
+    });
+    console.log(vm2,vm4,vm1,vm3);
+</script>
+</html>

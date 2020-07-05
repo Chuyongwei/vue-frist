@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>父组件</p>
+        <hr>
+        <!-- 
+            vue 组件分发技术：在调用组件时，可以将调用组件定义的正反标签中的结构
+            作为构成组件的模板中的一部分 进行定义
+            vue 提供一个在组件模板定义时可以使用的 内置组件 <slot>
+                slot 组件为一个组件模板定义 占位符
+                接受组件调用时正反标签中 传入的 自定义标签
+            具名分发技术
+                将用于定义在组件正反标签中的结构 ，以名称方式分发给组件模板，完成不同占位定义
+                在定义slot标签上 定义唯一name属性
+                在组件定义的正反标签中，对需要指定特殊位置的 代码以 template 进行包裹，并以 指令 v-slot:name名称
+        --> 
+        <comp-a >
+            纯文本
+            <template v-slot:a>
+                <div>
+                    分发标签
+                </div>
+            </template>
+        </comp-a>
+        <hr>
+        <comp-a>
+            <textarea name="" id="" cols="30" rows="10"></textarea>
+        </comp-a>
+        <hr>
+    </div>
+
+    <template id="compa">
+        <div>
+
+            <ul>
+                <li v-for="(item, index) in 3" :key="index">{{ item }}</li>
+            </ul>
+            
+            <slot></slot>
+
+            <p>文子描述</p>
+            <input type="button" value="测试数据">
+            
+            <slot name="a"></slot>
+
+        </div>
+    </template>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        components:{
+            CompA:{
+                template:"#compa"
+            }
+        }
+    });
+
+</script>
+</html>

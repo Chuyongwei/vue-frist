@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            margin-bottom: 500px;
+        }
+    </style>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <textarea name="" id="aa" cols="30" rows="5" value="22222" ></textarea>
+    <br>
+    <form action="#" method="get">
+        <input type="radio" name="sex" id="" value="m">
+        <input type="radio" name="sex" id="" value="f">
+        <input type="radio" name="sex" id="" value="unkown">
+        <input type="submit" value="提交">
+    </form>
+    <br>
+    <input type="radio" name="aa" id="">
+    <input type="radio" name="aa" id="">
+    <input type="radio" name="aa" id="">
+    <hr>
+    <div id="app">
+        <!-- 
+            1、单行文本框
+                双向数据绑定实际上就是 数据劫持+事件绑定
+                + 对于单行文本框而言，数据劫持和v-bind:value 实现内存到页面的响应,
+                  v-on:input 实现了页面输入变化到内存数据更新
+                + v-model 实际上就是 v-bind 和 v-on 的 整合指令
+        -->
+        <p>msg:{{ msg }}</p>
+        <input type="text" :value="msg" @input=" msg = $event.target.value ">
+        <input type="text" v-model="msg">
+        <hr>
+        <p>文本框的扩展（除 radio 和 checkbox）</p>
+        <p>双向数据绑定依然是对 元素的 value属性的操作</p>
+        <span>{{ color }}</span>
+        <input type="color" :value="color" @input=" color=$event.target.value ">
+        <input type="color" v-model="color">
+        <hr>
+        <span>{{ day }}</span>
+        <input type="date" :value="day" @input=" day=$event.target.value ">
+        <input type="date" v-model="day">
+        <hr>
+        <span>{{ num }}</span>
+        <input type="range" min="0" max="10" step="1" :value="num" @input=" num=$event.target.value ">
+        <input type="range" min="0" max="10" step="1" v-model="num">
+        <!-- 
+            2、多行文本域
+                * 在页面定义时，标签 textarea 没有 value attr属性，
+                  所以定义页面时，采用正反标签中的定义值作为初始值；
+                  textarea 转化为 JS dom对象后，以正反标签中的值作为 value第一次初始值，
+                  后续用户的交互，只会对DOM元素 value prop 属性进行操作
+                + 对于 多行文本域而言
+                    v-model 实际上就是 v-bind:value 的dom属性绑定，和 v-on:input的事件绑定
+        -->
+        <pre>info:{{ info }}</pre>
+        <textarea cols="10" rows="5" @input=" info=$event.target.value ">{{ info }}</textarea>
+        <textarea cols="10" rows="5" v-bind:value=" info " @input=" info=$event.target.value ">asdasdasd</textarea>
+        <textarea cols="10" rows="5" v-model=" info "></textarea>
+        <hr>
+        <!--  
+            3、单选按钮
+                + v-model 对于单项按钮实际上就是 对 checked属性的控制和对 change方法的定义
+                + 单选按钮的 v-model的绑定中 checked 属性的操作取决于 当前标签的 value属性定义
+                + v-model 为单选按钮进行定义是，如果没有定义 value 属性
+                    当选择该单选按钮时，vue认为当前单选按钮为定义value属性值，直接返回 null
+        -->
+        <span>radioFlag:{{ radioFlag }}</span>
+        <input type="radio" value="M" :checked=" radioFlag " @change=" radioFlag=true ">
+        <input type="radio" value="F" :checked=" radioFlag " @change=" radioFlag=true ">
+        <input type="radio" value="unkown" :checked=" radioFlag " @change=" radioFlag=true ">
+        <br>
+        <span>radionData:{{ radionData }}</span>
+        <input type="radio" value="M" :checked=" radionData=='M' " @change=" radionData=$event.target.value ">
+        <input type="radio" value="F" :checked=" radionData=='F' " @change=" radionData=$event.target.value ">
+        <input type="radio" value="unkown" :checked=" radionData=='unkown' " @change=" radionData=$event.target.value ">
+        <br>
+        <input type="radio" value="M" v-model="radionData">
+        <input type="radio" value="F" v-model="radionData">
+        <input type="radio" value="unkown" v-model="radionData">
+        <br>
+        <input type="radio" v-model="radionData1">
+        <input type="radio" v-model="radionData1">
+        <input type="radio" v-model="radionData1">
+        <hr>
+        <!--  
+            4、多选按钮
+                + v-model 绑定多选按钮时,以取值类型执行对应功能的
+                    - 取值为非数组（Array）数据，v-model会直接记录复选框的状态（true表示选择，false 表示未选中）
+                    - 取值为数组数据，定义相同的变量属性的 复选框会直接作为统一组别
+                        * 如果标签上未提供 value 属性，当选中任意复选框，会直接将null作为值追加到数组中
+                          所有和当前数组绑定的元素，都会通过判断标签value的值在数组中是否存在，描述标签是否选中
+                        * 如果标签上提供 value 属性，当选中该复选框时，会将该复选框的value属性值追加到数组中
+                          数组中记录的 value数据是无序的
+                + v-model 绑定多选按钮的扩展功能
+                    取值为非数组时，可以通过为标签绑定 true-value 或者 false-value 实现对于选中和不选中的取值在的修改
+        -->
+        <p>checkData:{{ checkData }}</p>
+        <input type="checkbox" value="a1" v-model="checkData">
+        <input type="checkbox" value="a2" v-model="checkData">
+        <input type="checkbox" value="a3" v-model="checkData">
+        <input type="checkbox" value="a4" v-model="checkData">
+        <br>
+        <input type="checkbox" :checked=" checkFlag " @change=" checkFlag=!checkFlag ">
+        <input type="checkbox" :checked=" checkFlag " @change=" checkFlag=!checkFlag ">
+        <input type="checkbox" :checked=" checkFlag " @change=" checkFlag=!checkFlag ">
+        <input type="checkbox" :checked=" checkFlag " @change=" checkFlag=!checkFlag ">
+        <br>
+        <input type="checkbox" value="b1" :checked=" checkData1.indexOf('b1')!=-1 " @change=" changeArr($event.target.value) ">
+        <input type="checkbox" value="b2" :checked=" checkData1.indexOf('b2')!=-1 " @change=" changeArr($event.target.value) ">
+        <input type="checkbox" value="b3" :checked=" checkData1.indexOf('b3')!=-1 " @change=" changeArr($event.target.value) ">
+        <input type="checkbox" value="b4" :checked=" checkData1.indexOf('b4')!=-1 " @change=" changeArr($event.target.value) ">
+        <br>
+        <input type="checkbox" true-value="同意协议" false-value="不同意协议"  v-model="checkData2">
+        <hr>
+        <!--  
+            5、下拉列表
+                + v-model 只用于操作 select 标签，通过对DOM 属性 value的 绑定和 change事件的处理
+                  控制 option的 切换和选中，取值遵循 select 在原始 HTML和JS中的规则
+        -->
+        <p>selectData:{{selectData}}</p>
+        <select :value=" selectData " @change=" selectData=$event.target.value ">
+            <option>aa</option>
+            <option value="BB">bb</option>
+            <option value="CC">cc</option>
+        </select>
+        <select v-model="selectData">
+            <option>aa</option>
+            <option value="BB">bb</option>
+            <option value="CC">cc</option>
+        </select>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"默认",
+            info:"默认\n达到",
+            color:"",
+            day:"",
+            num:0,
+            radioFlag:false,
+            radionData:"",
+            radionData1:"",
+            // checkData:""
+            checkData:[],
+            checkFlag:false,
+            checkData1:[],
+            checkData2:"",
+            selectData:"BB"
+
+        },
+        methods: {
+            changeArr(v){
+                var i = this.checkData1.indexOf(v);
+                if(i!=-1){
+                    this.checkData1.splice(i,1);
+                }else{
+                    this.checkData1.push(v);
+                }
+            }
+        },
+    })
+
+</script>
+</html>

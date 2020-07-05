@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>msg:{{ msg }}</p>
+        <input type="text" v-model="msg">
+        <hr>
+        <test-comp :msg="msg" @update:msg="updateMsg"></test-comp>
+    </div>
+    <template id="testComp">
+        <div>
+            <p>msg:{{ msg }}</p>
+            <input type="text" v-model="msg">
+            <input type="text" :value="msg" @input=" sendMsg($event.target.value) ">
+            <input type="text" v-model="getMsg">
+
+        </div>
+    </template>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"父组件数据"
+        },
+        methods: {
+            updateMsg(arg){
+                this.msg = arg;
+            }
+        },
+        components:{
+            TestComp:{
+                template:"#testComp",
+                props:{
+                    msg:{
+                        type:String
+                    }
+                },
+                computed: {
+                    getMsg:{
+                        get(){
+                            return this.msg;
+                        },
+                        set(nv){
+                            this.$emit("update:msg",nv);
+                        }
+                    }
+                },
+                methods: {
+                    sendMsg(arg){
+                        this.$emit("update:msg",arg);
+                    }
+                },
+            }
+        }
+    })
+</script>
+</html>

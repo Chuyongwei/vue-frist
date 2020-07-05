@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="never">
+
+    <link rel="stylesheet" href="./css/base.css">
+    <script src="./js/common.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/jquery-1.8.0.min.js"></script>
+    <link rel="import" href="./components/NavBar.html">
+    <!-- <link rel="import" href="./components/FilmeItem.html"> -->
+    <link rel="import" href="./components/Filmelist.html">
+    <title>电影分类</title>
+    <script>
+        window.onload = function () {
+            new Vue({
+                el: ".app",
+                components: {
+                    NavBar: NavBar,
+                    // FilmItem: FilmeItem
+                    FilmList
+                },
+                data:{
+                    FilmsList: []
+                },
+                methods: {
+                    loadFilms(){
+                        $.ajax({
+                            url:"http://127.0.0.1:80/filmApi/loadFilms.php",
+                            dataType:"json",
+                            data:{
+                                size:11
+                            },
+                            success:(data)=>{
+                                console.log(this,data);
+                                this.FilmsList = data.result;
+                            }
+                        })
+                    }
+                },
+                mounted() {
+                    this.loadFilms();
+                },
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <!-- 项目容器 start-->
+    <div class="app">
+        <!-- 头部搜索框 start -->
+        <nav-bar></nav-bar>
+        <!-- 头部搜索框 end -->
+        <!-- 首页正文 start -->
+        <div class="content-box">
+            <!-- 首页分类列表 start -->
+            <div class="films-box">
+                <div class="list-name">
+                    <span>热门电影</span>
+                </div>
+                <film-list class="content-list" :list="FilmsList"></film-list>
+                <!-- <div class="content-list"> -->
+                    <!-- 电影展示组件 start -->
+                    <!-- <film-item v-for="film in FilmsList" :key="film.filmId" :film=" film "></film-item> -->
+                    <!-- 电影展示组件 end -->
+                <!-- </div> -->
+            </div>
+            <!-- 首页分类列表 end -->
+        </div>
+        <!-- 首页正文 end -->
+    </div>
+    <!-- 项目容器 end-->
+</body>
+
+</html>

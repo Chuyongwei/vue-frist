@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        #app{
+            background-color: #cccccc;
+            padding: 10px;
+        }
+        .child{
+            background-color: pink;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h3>父组件范围</h3>
+        <p>msg:{{ msg }}</p>
+        <input type="text" v-model="msg">
+        <p>info:{{ info }}</p>
+        <input type="text" v-model="info">
+        <hr>
+        <!-- 
+            技术核心：属性绑定、数据拦截
+                1、属性绑定：
+                    将组件的自定义标签作为普通标签进行 v-bind 操作;
+                    v-bind 取值为 简单表单式|匿名变量|对于容器的数据仓库变量;
+                    子组件定义在父组件容器范围内，所以子组件标签上的v-bind 依然可以获取父组件的数据仓库变量;
+
+                    -> 在子组件为完成 数据拦截时（props定义时会执行下述操作）
+                    -> 子组件标签在最终构成的项目结构中并不存在，vue会将该标签上绑定属性功能，直接传递给当前子组件的根标签;
+                    -> 传递的是解析数据变量后的表达式;
+
+                2、数据拦截
+                    vue对于父组件传递的数据，可以通过自定义根节点方法或者$attrs属性进行获取，但两者其一为手动执行，其二需要在钩子函数中调用;
+                    vue提供快速获取和拦截操作，该操作依赖于 vue关于实例定义时的 props 属性；
+                    props属性只用于获取组件构建时，该组件标签上绑定的自定义属性；
+                    props 本身为当前vue实例的 另一个特殊数据仓库；
+                    props 会在组件标签创建之前，完成数据的变量的拦截和关联=>会对被拦截的数据完成和父组件数据变量的变化监控
+                    props 会保留传递变量的 数据类型特点；
+                    props 拦截的变量为只读变量（只能读取不能修改）；
+
+
+         -->
+        <child-comp v-bind:aa=" msg " :itany="info"></child-comp>
+    </div>
+
+    <template id="child">
+        <div :bb=" 'aa' " class="child" @click="getAttr($event.target)">
+            <h3>子组件范围</h3>
+            <p>msg:{{ msg }}</p>
+            <p>itany:{{ itany }}</p>
+            <input type="text" v-model="itany">
+        </div>
+    </template>
+</body>
+<script>
+
+    Vue.component("ChildComp",{
+        template:"#child",
+        data(){
+            return {
+                msg:""
+            }
+        },
+        props:{
+            // key: 被绑定 属性名称
+            // value: 取值为绑定属性的特性描述配置项
+            itany:{},
+        },
+        methods: {
+            getAttr(dom){
+                console.log(dom);
+                console.log(dom.getAttribute("aa"))
+                this.msg = dom.getAttribute("aa");
+            }
+        },
+        mounted() {
+            // 实例属性 $attrs 作用就是记录 当前组件根节点元素上所接受传递 绑定属性值
+            this.msg = this.$attrs.aa;
+        },
+    });
+
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"父元素数据",
+            // msg:{user:"tom"},
+            info:"测试数据"
+        }
+    })
+
+</script>
+</html>

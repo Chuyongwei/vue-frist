@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        function print(){
+            console.log("print方法");
+        }
+        function show(){
+            console.log("show方法");
+        }
+
+        window.onload = function(){
+            var btn1Dom = document.querySelector("#btn1");
+            // btn1Dom.addEventListener(eventName,callback)
+            btn1Dom.addEventListener("click",function(){
+                console.log("动态事件2");
+            });
+            btn1Dom.addEventListener("click",function(){
+                console.log("动态事件1");
+            });
+            btn1Dom.addEventListener("click",function(){
+                console.log("动态事件3");
+            });
+            btn1Dom.addEventListener("click",function(){
+                console.log("动态事件4");
+            });
+
+        }
+    </script>
+</head>
+<body>
+    <!-- 
+        1、静态事件绑定：是对标签的DOM对象的 事件属性进行赋值操作
+            + 静态事件绑定，在浏览器的DOM元素上会直接显示出绑定的事件
+            + 静态事件绑定，只能同时为 事件赋一个事件回调函数=只会绑定第一个事件回调
+    -->
+    <input type="button" value="绑定事件"  onclick="show()" onclick="print()">
+    <input type="button" value="绑定事件">
+    <hr>
+    <!-- 
+        2、动态事件绑定：通过JS的方式，为对应元素的DOM对象添加新的事件监听
+            + 动态事件绑定，必须首先获取DOM对象，通过对象的内置事件监听方法 addEventListener 进行事件绑定
+            + 动态事件绑定，在绑定的事件上不会存在 事件的绑定属性定义
+            + 动态事件绑定，可以为一个元素的相同事件功能绑定多个回调函数，执行时以绑定先后执行
+    -->
+    <input type="button" value="绑定事件" id="btn1">
+    <hr>
+    <script>
+        function printThis1(arg){
+            console.log(arg);
+            console.log(this);
+        }
+        
+        window.onload = function(){
+            var btn2Dom = document.querySelector("#btn2");
+            btn2Dom.addEventListener("click",function(){
+                console.log(this);
+            })
+        }
+
+        function printUserInput(v){
+            console.log(v);
+        }
+    </script>
+    <!-- 静态事件绑定：传入的页面 this 指向于 当前DOM对象 -->
+    <input type="button" value="页面this" onclick="printThis1(this)"><br>
+    <!-- 动态事件绑定：this 指向于 当前DOM对象 -->
+    <input type="button" id="btn2" value="页面this"><br>
+    <input type="text" oninput="printUserInput(this.value)">
+    <hr>
+    <script>
+        // JS的DOM事件源，指的是事件触发的源头
+        //  JS的事件源对象
+        //      event 为JS 内置的 描述 DOM元素事件触发的 事件源对象
+        //          event.target 实际上是 当前事件触发的 DOM元素对象
+        //      该对象为方法DOM事件执行时，JS内置的特殊对象
+        //      该对象 为当前方法的执行的  事件描述
+        //      描述信息包含，事件的触发源头，事件的触发行为，触发事件的DOM对象，相关的硬件状态
+        function printEvent(e){
+            console.log(e)
+        }
+    </script>
+    <input type="button" value="事件源对象" onclick="printEvent(event,this)">
+    <input type="text" onkeyup="printEvent(event,this)">
+
+</body>
+</html>

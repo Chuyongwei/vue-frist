@@ -1,0 +1,36 @@
+<template>
+    <div itany="aaaa">
+        <!-- 电影展示组件 start -->
+        <div class="film-item" v-for="(film, index) in list" :key="film.filmId" >
+            <div class="film-img" :style=" `background-image: url(${film.filmImg})` "></div>
+            <div class="film-title">{{ film.filmName }}</div>
+            <div class="film-source">
+                <span class="star-img open"></span>
+                <span class="star-img open"></span>
+                <span class="star-img open"></span>
+                <span class="star-img close"></span>
+                <span class="star-img close"></span>
+                <span class="star-source">{{ film.source | getSource }}</span>
+            </div>
+        </div>
+        <!-- 电影展示组件 end -->
+    </div>
+</template>
+<script>
+    const FilmList = Vue.extend({
+        template: document.currentScript.ownerDocument.querySelector("template"),
+        props: {
+            list: {
+                type: Array,
+                default: function () {
+                    return []
+                }
+            }
+        },
+        filters: {
+            getSource(value){
+                return (value*1).toFixed(1);
+            }
+        },
+    })
+</script>

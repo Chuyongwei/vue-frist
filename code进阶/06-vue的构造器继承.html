@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="a"></div>
+    <hr>
+    <div id="b"></div>
+    <hr>
+    <div id="c"></div>
+    
+
+    <template id="comp">
+        <div>
+            <h2 @click='print()'>集成函数:{{ msg }}</h2>
+            <input type="text" v-model="msg">
+        </div>
+    </template>
+</body>
+<script>
+    var data = {
+        msg:"测试数据"
+    }
+
+    var Comp = Vue.extend({
+        // el:"#a",
+        // el 只在由 new Vue() 创建的实例中使用。不能用于 集成函数构建的构造器模板中
+        // template:"<h2 @click='print()'>集成函数:{{ msg }}</h2>",
+        template:"#comp",
+        /*
+            构造定义data时，因vue语法限制，不能直接使用对象进行参数描述
+            语法要求构造器定义模板是，data 必须为一个方法 且返回一个 对象数据变量
+            => 为了实现 创建实例对象，彼此之间数据相互独立
+        */
+        // data:{
+        //     msg:"aaaa"
+        // },
+        data:function(){
+            return {
+                msg:"aaaa"
+            }
+            // return data;
+        },
+        methods: {
+            print(){
+                console.log("组件自定义方法");
+            }
+        },
+        beforeMount() {
+            console.log("组件构造方法函数")
+        },
+    });
+    var vm1 = new Comp();
+    vm1.$mount("#a");
+
+    var vm2 = new Comp();
+    vm2.$mount("#b");
+
+    var vm3 = new Comp();
+    vm3.$mount("#c");
+
+</script>
+</html>

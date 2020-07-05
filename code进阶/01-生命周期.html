@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ msg }}</p>
+        <input type="text" name="" id="" v-model="msg">
+        <hr>
+        <p>{{ info }}</p>
+        <input type="text" name="" id="" v-model="info">
+
+    </div>
+    <!-- <h1 id="app">页面定义的html</h1> -->
+</body>
+<script>
+    // var res = Vue.compile('<div><span>{{ msg }}</span></div>')
+    // console.log(res);
+
+
+    var vm = new Vue({
+        el:"#app",
+        // template:"<p>创建的模板</p>",
+        data:{
+            msg:"测试",
+            info:"aa"
+        },
+        watch: {
+            msg(nv,ov){
+                console.log("watch",nv,ov);
+            }
+        },
+        methods: {
+            show(){
+                console.log("show")
+            }
+        },
+        beforeCreate:function(){
+            // console.log(this);
+            // alert(1);
+            console.group("beforeCreate==>");
+            console.log("this:",this); // 存在实例
+            console.log("$options:",this.$options); // 存在配置项
+            console.log("$el",this.$el); // 没有完成容器构建，所以 $el 为 undefined
+            console.log("$data:",this.$data); // 只完成了vue的环境，但没有完成数据装载，所以为 undefined
+            console.log("$data.msg:",this.msg);// 只完成了vue的环境，但没有完成数据装载，所以为 undefined
+            console.groupEnd();
+        },
+        created() {
+            console.group("created==>");
+            console.log("this:",this);// 存在实例
+            console.log("$options:",this.$options);// 存在配置项
+            console.log("$el",this.$el);// 没有完成容器构建，所以 $el 为 undefined
+            // 在完成数据装载时，执行$options.data 方法 （mergedInstanceDataFn()）
+            //    主要用于完成数据对象的合并 和 数据劫持的执行，最终返回一个具有劫持的 数据对象
+            //    提供vue实例的 $data
+            console.log("$data:",this.$data); // 已经完成了vue的基本功能定义，所以以存在数据仓库
+            console.log("$data.msg:",this.msg);// 已经完成了vue的基本功能定义，所以以存在变量
+            console.groupEnd();
+        },
+        beforeMount() {
+            // // console.log("beforeMount")
+            // console.log(this.$el);
+            // alert(1);
+            console.group("beforeMount==>");
+            console.log("this:",this);// 存在实例
+            console.log("$options:",this.$options);// 存在配置项
+            console.log("$el",this.$el);// 实例中存在了 $el 属性值，仅表示页面中的占位dom元素
+            console.log("$data:",this.$data); // 已经完成了vue的基本功能定义，所以以存在数据仓库
+            console.log("$data.msg:",this.msg);// 已经完成了vue的基本功能定义，所以以存在变量
+            console.groupEnd();
+        },
+        // 完成vue项目中初始化数据和功能的定义
+        mounted() {
+            console.group("mounted==>");
+            console.log("this:",this);// 存在实例
+            console.log("$options:",this.$options);// 存在配置项
+            console.log("$el",this.$el);// 实例中存在的 $el 属性值，表示当前实例的容器
+            console.log("$data:",this.$data); // 已经完成了vue的基本功能定义，所以以存在数据仓库
+            console.log("$data.msg:",this.msg);// 已经完成了vue的基本功能定义，所以以存在变量
+            console.groupEnd();
+        },
+        beforeUpdate() {
+            console.log("beforeUpdate：",this.msg);
+            // alert(1);
+        },
+        updated() {
+            console.log("updated",this.msg)
+            
+        },
+    });
+
+    // vm.$nextTick(callback)
+    // setTimeout(() => {
+    //     vm.$mount("#app");
+    // }, 3000);、
+    // vm.$mount();
+</script>
+</html>

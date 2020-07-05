@@ -1,0 +1,85 @@
+<template>
+    <div class="tip-box" :style=" 'animation-duration:'+time+'s;' ">{{ msg }}</div>
+</template>
+
+<script>
+    // console.log("11111");
+    // // 可以直接加载当前代码执行的对于 script脚本代码
+    // console.log(document.currentScript);
+    // // 加载与当前 script 脚本属于同文件的 document对象
+    // console.log(document.currentScript.ownerDocument);
+    // console.log(document.currentScript.ownerDocument.querySelector("template"))
+
+
+    const Tip = Vue.extend({
+        // document.currentScript 获取与当前文档中运行的脚本文件
+        template: document.currentScript.ownerDocument.querySelector("template"),
+        data() {
+            return {
+                msg: "",
+                time: 3
+            }
+        },
+        created() {
+            this.$mount();
+        },
+        mounted() {
+            document.body.appendChild(this.$el);
+            setTimeout(() => {
+                console.log(1);
+                document.body.removeChild(this.$el);
+                this.$destroy()
+            }, (this.time+1)*1000);
+        }
+    });
+
+    function showTip(msg = "默认消息", time = 3) {
+        var tip = new Tip();
+        tip.msg = msg;
+        tip.time = time;
+    }
+</script>
+
+<style>
+    .tip-box {
+        position: fixed;
+        top: 0px;
+        left: 50%;
+        transform: translate(-50%, -100%);
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        font-size: 16px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        animation-name: tipFade;
+        animation-iteration-count: 1;
+        /* animation-duration: 3s; */
+    }
+
+    @keyframes tipFade {
+        0% {
+            transform: translate(-50%, -100%);
+            opacity: 0;
+        }
+
+        15% {
+            transform: translate(-50%, 100%);
+            opacity: 1;
+        }
+
+        85% {
+            transform: translate(-50%, 100%);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translate(-50%, -100%);
+            opacity: 0;
+        }
+    }
+</style>

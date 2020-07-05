@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        var msg = "测试数据";
+
+        function initPDomFun(){
+            var pDom = document.getElementById("pDom");
+            pDom.innerHTML = msg;
+        }
+
+        // function inputDomFun(arg){
+        //     // console.log(arg);
+        //     msg = arg;
+        //     initPDomFun();
+        // }
+        function inputDomFun(){
+            // console.log(this.value);
+            msg = this.value;
+            initPDomFun();
+        }
+        window.onload = function(){
+            initPDomFun();
+            var inputDom = document.getElementById("inputDom");
+            inputDom.value = msg;
+            // JS 中 addEventListener 事件绑定触发回调函数中 this 指向于绑定的DOM对象
+            inputDom.addEventListener("input",inputDomFun);
+        }
+    </script>
+</head>
+<body>
+    <p id="pDom"></p>
+
+    <!-- 
+        当用户在文本框中进行文字输入时，希望 上述 p 标签可以同步动态显示输入的值
+            1、p标签的初始值为 JS 中 msg 变量
+            2、文本框用户输入值得操作 ， 修改 js 中的 msg 变量
+                - 对文本框实现 事件的监听 input
+                - input 事件本身就是对文本框输入行为的监听
+                - msg 默认是有值得
+     -->
+    <!-- <input type="text" id="inputDom" oninput="inputDomFun(this.value)"> -->
+    <input type="text" id="inputDom">
+
+</body>
+</html>

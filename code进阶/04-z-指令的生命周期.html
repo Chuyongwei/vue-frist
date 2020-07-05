@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <p v-test="msg">自定义指令</p> -->
+        <input type="text" v-model="msg">
+        <hr>
+        <div>
+            <input type="text" v-not-null="msg" v-model="msg">
+            <span></span>
+        </div>
+
+        <input type="text" v-not-nulla="msg" v-model="msg">
+
+    </div>
+    <input type="button" value="销毁" onclick="destVue()">
+    <!-- <form action="#" method="get">
+        <input type="text" name="aa" id="" required minlength="3" maxlength="6">
+        <input type="submit" value="提交">
+
+    </form> -->
+    <hr>
+    <hr>
+    <hr>
+    <hr>
+</body>
+<script>
+    function destVue() {
+        vm.$destroy()
+    }
+
+
+    // Vue.directive("test", {
+    //     // key 为钩子函数的名称， value为钩子函数的取值
+    //     bind(el, binding, nvnode, ovnode) {
+    //         console.group("bind");
+    //         console.log("el:", el);
+    //         console.log("binding:", binding);
+    //         console.log("nvnode:", nvnode);
+    //         console.log("ovnode:", ovnode);
+    //         console.groupEnd()
+    //     },
+    //     inserted(el, binding, nvnode, ovnode) {
+    //         console.group("inserted");
+    //         console.log("el:", el);
+    //         console.log("binding:", binding);
+    //         console.log("nvnode:", nvnode);
+    //         console.log("ovnode:", ovnode);
+    //         console.groupEnd()
+    //     },
+    //     update(el, binding, nvnode, ovnode) {
+    //         console.group("update");
+    //         console.log("el:", el);
+    //         console.log("binding:", binding);
+    //         console.log("nvnode:", nvnode);
+    //         console.log("ovnode:", ovnode);
+    //         console.groupEnd()
+    //     },
+    //     componentUpdated(el, binding, nvnode, ovnode) {
+    //         console.group("componentUpdated");
+    //         console.log("el:", el);
+    //         console.log("binding:", binding);
+    //         console.log("nvnode:", nvnode);
+    //         console.log("ovnode:", ovnode);
+    //         console.groupEnd()
+    //     },
+    //     unbind(el, binding, nvnode, ovnode) {
+    //         // 当前指令和vue环境都解绑时会触发该函数
+    //         // 在vue程序停止运行时，结束指令的相关功能
+    //         console.group("unbind");
+    //         console.log("el:", el);
+    //         console.log("binding:", binding);
+    //         console.log("nvnode:", nvnode);
+    //         console.log("ovnode:", ovnode);
+    //         console.groupEnd()
+    //     }
+    // });
+
+    // Vue.directive("notNull",function(el,binding){
+    //     var temp = binding.value;
+    //     console.log(el.parentElement);
+    //     if(temp.length==0){
+    //         el.style.color = "red";
+    //         var tip = el.parentElement.querySelector("span");
+    //         tip.innerHTML = "不能为空";
+    //         tip.style.color = "red";
+    //     }else{
+    //         el.style.color = "green";
+    //         // console.loh
+    //         // var tip = el.parentElement.querySelector("span");
+    //         // tip.innerHTML = "输入正确";
+    //         // tip.style.color = "green";
+    //     }
+    // })
+    Vue.directive("notNull", {
+        inserted(el, binding) {
+            var tip = el.parentElement.querySelector("span");
+            tip.style.color = "#999";
+            tip.innerHTML = "用户名是必须参数……";
+
+            // var temp = binding.value;
+            // var tip = el.parentElement.querySelector("span");
+            // console.log(el.parentElement);
+            // if(temp.length==0){
+            //     el.style.color = "red";
+            //     tip.innerHTML = "不能为空";
+            //     tip.style.color = "red";
+            // }else{
+            //     el.style.color = "green";
+            //     tip.innerHTML = "输入正确";
+            //     tip.style.color = "green";
+            // }
+        },
+        update(el, binding) {
+            var temp = binding.value;
+            var tip = el.parentElement.querySelector("span");
+            console.log(el.parentElement);
+            if (temp.length == 0) {
+                el.style.color = "red";
+                tip.innerHTML = "不能为空";
+                tip.style.color = "red";
+            } else {
+                el.style.color = "green";
+                tip.innerHTML = "输入正确";
+                tip.style.color = "green";
+            }
+        },
+    })
+
+    Vue.directive("notNulla", {
+        update(el, binding) {
+            var temp = binding.value;
+            var tip = document.createElement("span");
+            tip.style.position = "fixed";
+            console.log(el);
+            // offsetLeft: 8
+            // offsetTop: 73
+            tip.style.left = el.offsetLeft + "px";
+            tip.style.top = el.offsetTop+el.clientHeight + "px";
+            if (temp.length == 0) {
+                el.style.color = "red";
+                tip.innerHTML = "不能为空";
+                tip.style.color = "red";
+                document.body.appendChild(tip);
+                // setTimeout(function(){
+                //     document.body.removeChild(tip);
+                // },3000)
+            } else {
+                el.style.color = "green";
+            }
+        }
+    });
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg: ""
+        }
+    })
+</script>
+
+</html>

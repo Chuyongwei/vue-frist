@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p id="ccc" ref="a">{{ info }}</p>
+        <div>
+
+        </div>
+    </div>
+    <hr>
+    <input type="button" value="为info重新赋值" onclick="setInfo()">
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            info:"测试变量"
+        },
+        methods: {
+            show(){}
+        },
+    })
+    console.log(vm);
+    // 提供开发者 对于 vue 实例关联的容器 DOM元素的获取
+    console.log("$el:",vm.$el);
+    // 提供开发者 对于 vue 实例的基础数据仓库 data 的 整体获取
+    // $data 本身带有 数据劫持响应功能
+    console.log("$data:",vm.$data); 
+    function setInfo(){
+        vm.$data.info = "新值";
+    }
+    // 将构建vue时提供的自定义配置项，进行过处理和转换，最终返回一个用于
+    // 构建vue实例的 初始化选项 $options
+    console.log("$options:",vm.$options);
+    // $refs 实例属性 返回的是一个 对象，从当前实例容器返回内，加载具有ref属性的DOM元素
+    // $refs 的作用就是让开发者快速获取DOM元素使用的
+    // $refs 对象中key为容器标签定义ref属性时的取值，value为该标签的 DOM对象
+    console.log("$refs",vm.$refs);
+    console.log("$refs",vm.$refs.a);
+    // document.getElementById("ccc")
+
+
+
+</script>
+</html>

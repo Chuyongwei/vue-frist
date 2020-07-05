@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .div1 {
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+        }
+
+        .div2 {
+            width: 400px;
+            height: 400px;
+            border: 1px solid black;
+        }
+
+        .div3 {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+        }
+
+        .div4 {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+
+        .div5 {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+
+        .test {
+            background-color: #cccccc;
+        }
+    </style>
+    <script>
+        function printDefault() {
+            console.log("printDefault");
+        }
+        function printDefault1(e) {
+            console.log("printDefault1:", e);
+            e.preventDefault();
+        }
+        function printName(name,e) {
+            console.log(name);
+            if(e&&name=="div3"){
+                e.stopPropagation();
+            }
+        }
+    </script>
+</head>
+<body>
+    <!-- 
+        JS的事件触发机制，本身和HTML元素结构和元素功能存在很大关系的
+        1、事件冒泡（元素结构出现的事件传递方式）
+            -> IE 提出的元素嵌套事件传递 方向 (JS 采用事件冒泡作为默认传递方式)
+               + 在页面构成中，如果元素绑定了相同的事件，当事件被触发时，事件会以元素层级方式
+               向父元素层层传递
+               + 方向：子 => 父 ==> 事件冒泡
+            -> 子元素的事件触发不希望触发父元素的事件
+               + 阻止事件冒泡 
+                    通过 事件源对象的 内置 特定方法阻止事件事件 stopPropagation() 阻止事件传递  
+        2、事件捕获（元素结构出现的事件传递方式）
+            -> chrome 提出的元素嵌套事件传递 方向 （JS也集成了事件捕获功能）
+                + 在页面构成中，如果元素绑定了相同的事件
+                  且子元素触发了该事件，首先触发最外层父元素事件，按照层级由外向内层层触发
+                + JS如果需要实现事件捕获功能，需要通过动态事件绑定方式实现
+            -> 阻止事件捕获
+                通过 事件源对象的 内置 特定方法阻止事件事件 stopPropagation() 阻止事件传递  
+    -->
+    <div class="div1" onclick="printName('div1')">
+        div1
+        <div class="div2" onclick="printName('div2')">
+            div2
+            <div class="div3" onclick="printName('div3',event)">
+                div3
+                <div class="div4" onclick="printName('div4')">
+                    div4
+                    <div class="test" onclick="printName('test')">
+                        test
+                    </div>
+                    <div class="div5" onclick="printName('div5')">
+                        div5
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <script>
+        window.onload = function(){
+            var div1 = document.getElementById("div1");
+            var div2 = document.getElementById("div2");
+            var div3 = document.getElementById("div3");
+            var div4 = document.getElementById("div4");
+            var div5 = document.getElementById("div5");
+            // addEventListener(evenName,callback,useCapture)
+            //  useCapture 用 boolean 类型描述，事件传递是否使用捕获模式（默认值 false）
+            div1.addEventListener("click",function(){
+                console.log("div1");
+            },true);
+            div2.addEventListener("click",function(){
+                console.log("div2");
+            },true);
+            div3.addEventListener("click",function(event){
+                console.log("div3");
+                event.stopPropagation();
+            },true);
+            div4.addEventListener("click",function(){
+                console.log("div4");
+            },true);
+            div5.addEventListener("click",function(){
+                console.log("div5");
+            },true);
+        }
+    </script>
+    <div class="div1" id="div1">
+        div1
+        <div class="div2" id="div2">
+            div2
+            <div class="div3" id="div3">
+                div3
+                <div class="div4" id="div4">
+                    div4
+                    <div class="div5" id="div5">
+                        div5
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- 
+        3、默认行为（元素功能，出现的默认事件执行）
+           特定标签本身携带相关事件功能
+           - JS开发过程中，需要执行特定标签的事件，但又不希望执行标签的默认行为
+           - 默认事件的阻止
+              通过 事件源对象的 内置 特定方法阻止默认事件 preventDefault() 阻止默认事件触发
+    -->
+    <a href="https://www.baidu.com" onclick="printDefault()">百度</a>
+    <a href="https://www.baidu.com" onclick="printDefault1(event)">百度-阻止默认行为</a>
+</body>
+
+</html>

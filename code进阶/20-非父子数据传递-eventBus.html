@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        #app {
+            background-color: #cccccc;
+            padding: 10px;
+        }
+
+        .child {
+            background-color: pink;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h3>父组件</h3>
+        <hr>
+        <child-one></child-one>
+        <hr>
+        <child-two></child-two>
+    </div>
+    <template id="childOne">
+        <div class="child">
+            <h3>子组件1</h3>
+            <p>msg:{{ msg }}</p>
+            <p>info:{{ info }}</p>
+        </div>
+    </template>
+    <template id="childTwo">
+        <div class="child">
+            <h3>子组件2</h3>
+            <p>msg:{{ msg }}</p>
+            <input type="text" v-model="msg">
+            <p>info:{{ info }}</p>
+            <input type="button" value="发生msg和info变量" @click=" sendMsg() ">
+        </div>
+    </template>
+</body>
+<script>
+    // 1、基于方法定义和调用可以独立环境，并以实参和形参性质完成数据传递
+    // 2、基于Vue提供的实例方法 $on 和 $emit 完成自定义事件方法的定义和触发
+    // 3、中央事件总线（event bus） 必须基于一个固定的vue实例的
+    // 4、依赖于定义在全局中，可以被所有vue组件和具有vue实例特性的全局变量
+
+    // var a = "全局变量";
+    // 定义在全局中的vue实例，该实例没有容器
+    var eventBus = new Vue({});
+    // eventBus.$on("aaa",function(){});
+    // console.log(eventBus)
+
+    Vue.component("ChildOne", {
+        template: "#childOne",
+        data(){
+            return {
+                msg:"",
+                info:""
+            }
+        },
+        mounted() {
+            // console.log(a);
+            eventBus.$on("update:msg",(arg)=>{
+                // console.log(this);
+                this.msg = arg;
+            });
+            // 获取当前组件所属的 根组件（root组件）
+            console.log(this.$root);
+            this.$root.$on("update:info",(arg)=>{
+                this.info = arg;
+            })
+        },
+    });
+    Vue.component("ChildTwo", {
+        template: "#childTwo",
+        data(){
+            return {
+                msg:"组件2的msg变量",
+                info:"组件2的info变量"
+            }
+        },
+        methods: {
+            sendMsg(){
+                eventBus.$emit("update:msg",this.msg);
+                this.$root.$emit("update:info",this.info);
+            }
+        },
+        mounted() {
+            // console.log(a);
+            eventBus.$emit("update:msg",this.msg);
+            console.log(this.$root);
+        },
+    });
+
+    // new Vue 因为引导了整个vue项目的启动，因此vue中将通过 new Vue 创建的实例叫做 root实例（根实例）
+    var vm = new Vue({
+        el: "#app",
+        mounted() {
+            // console.log(a);
+        },
+    });
+    // console.log(vm);
+    // vm.$on(eventName,callback);
+    //  eventName 定义自定义事件的事件名称
+    //  callback 为该自定义事件触发的回调函数
+    // vm.$on("update:test",function(arg){
+    //     console.log("自定义事件update:test=",arg);
+    // });
+    // console.log(vm);
+    // vm.$emit("update:test","传递的参数");
+
+</script>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>boolean类型属性</p>
+        <hr>
+        <!-- 
+            html4 disabled 标签的定义方式  disabled=”disabled“
+            H5 规范了 标签属性的定义将一些特定语法属性 定位 为 boolean类型属性
+                boolean 类型属性而言，在标签上定义即为启用，不定义即为不启用
+            JS 中 DOM 元素的 prop上这类属性 取值都为 boolean类型值
+        -->
+        <input type="text">
+        <input type="text" disabled>
+        <hr>
+        <!-- 
+            vue 的 v-bind 在绑定boolean类型属性，默认启用修饰符 .prop
+                1、先完成 attr 的绑定
+                2、再完成 prop 的绑定
+            vue 的 v-bind 在绑定 boolean类型属性时，会自动将定义的取值转换为 boolean类型值
+                将转换后的boolean类型值赋值给 DOM 对于的boolean类型属性
+
+                vue的boolean类型属性绑定时，转换规则是vue自定义的规则
+                 取值 string 时：无论是空字符串还是非空字符串 统一转为 true 
+                 取值 number 时：无论是0还是非0 统一转为 true 
+                 取值 null 或 undefined ： v-bind 将其转换为 false
+                * 如果变量为 null或undefined 返回 false ,其它非boolean类型属性统一返回true
+                * 此规则，仅限于 v-bind 的 boolean 类型属性绑定
+         -->
+         <input type="text" v-bind:disabled=" flag ">
+         <input type="button" value="切换文本框状态" @click=" flag=!flag ">
+         <hr>
+         <p>防抖</p>
+         <input type="button" :value=" name " :disabled=" btnStatus " @click="startCode()">
+         <hr>
+         <input type="button" value="string" :disabled=" str ">
+         <input type="button" value="number" :disabled=" num ">
+         <input type="button" value="null" :disabled=" arg ">
+         <input type="button" value="undefined" :disabled=" arg1 ">
+         <input type="button" value="空[]" :disabled=" arr ">
+         <input type="button" value="空{}" :disabled=" obj ">
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            flag:false,
+            name:"发送验证码",
+            btnStatus:false,
+            num:4,
+            str:"aaa",
+            num:0,
+            arg:null,
+            arg1:undefined,
+            arr:[],
+            obj:{}
+        },
+        methods:{
+            startCode(){
+                this.name = this.name=="发送验证码"?this.num+"s后重发":"发送验证码";
+                this.btnStatus = !this.btnStatus;
+                
+                var timer = setInterval(()=>{
+                    // console.log(this);
+                    this.num = this.num - 1;
+                    this.name = this.num+"s后重发";
+
+                    if(this.num<0){
+                        this.name = "发送验证码";
+                        this.btnStatus = false;
+                        clearInterval(timer);
+                    }
+                },1000);
+            }
+        }
+    })
+
+</script>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ getNum }}</p>
+        <p>{{ getNum }}</p>
+        <p>{{ getNum }}</p>
+        <p>{{ getNum }}</p>
+        <p>{{ getNum }}</p>
+        <p>{{ getNum }}</p>
+        <p>{{ getNum }}</p>
+        <p>{{ getNum }}</p>
+        <input type="text" v-model="msg">
+        <hr>
+        <p>{{ msg | randomNum }}</p>
+        <p>{{ msg | randomNum }}</p>
+        <p>{{ msg | randomNum }}</p>
+        <p>{{ msg | randomNum }}</p>
+        <p>{{ msg | randomNum }}</p>
+        <p>{{ msg | randomNum }}</p>
+        <p>{{ msg | randomNum }}</p>
+
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"随机数值："
+        },
+        computed: {
+            getNum(){
+                console.log("getNum被执行");
+                return this.msg + Math.random();
+            }
+        },
+        filters:{
+            randomNum(value){
+                console.log("randomNum被执行");
+                return value+Math.random();
+            }
+        }
+    })
+
+</script>
+</html>

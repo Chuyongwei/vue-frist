@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/jquery.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>num:{{ num }}</p>
+        <input type="button" value="+" @click="num = num + 1">
+        <input type="button" value="-" @click="num = num - 1">
+        <hr>
+        <!-- 
+        2.6版本下述操作已经修正
+        -->
+        <!-- 
+            <input type="button" value="+" @click="num++">
+            <input type="button" value="+" @click="num+=1"> 
+        -->
+        <p>user:{{ user }}</p>
+        <input type="text" v-model="user.name"><br>
+        <input type="text" v-model="user.age"><br>
+        <input type="text" v-model="user.obj.a"><br>
+
+        <input type="button" value="重置user对象" @click=" resetUser() ">
+        <hr>
+        <p>arr:{{ arr }}</p>
+        <input type="text" v-model="arr[1]"><br>
+        <hr>
+        <p>obj:{{ obj }}</p>
+        <input type="text" v-model="obj.a"><br>
+        <input type="button" value="重置obj"  @click=" resetObj() ">
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            num: 10,
+            user:{
+                name:"tom",
+                age:23,
+                obj:{
+                    a:1
+                }
+            },
+            arr:[1,2,3,4],
+            obj:{
+                a:11,
+                b:"bb"
+            }
+        },
+        watch: {
+            num(nv,ov){
+                console.log(nv,ov);
+            },
+            /*
+                vue 的watch监视是对定义的监视变量的直接指向值的监控
+                例如：
+                    下面的user监控，因为user变量是引用数据类型，所以直接指向值为一个堆的地址
+                    因此，user的watch监视器，监控的是该变量的 地址变化 
+            */
+            // user:function(){
+            //     console.log("user被改变");
+            // },
+            // watch 定义时 key的一个特殊形式字符串的取值
+            // 对象属性定义地址字符串方式定义
+            // 下面的定义方式，表示需要vue监控 user对象中的name属性变化
+            "user.name":function(){
+                console.log("user.name属性的变化");
+            },
+            // watch定义时，value取值为 object时，属于为监控变量开启特殊监控处理法方法
+            user:{
+                // 监控对象的配置 必须使用 vue提供的 固定关键字进行描述
+                // handler 属性是用于描述监视的 回调函数
+                handler:function(){
+                    console.log("user-object监视配置的 handler方法")
+                },
+                // 修改watch变量的监控模式
+                //    浅监控：watch监控器默认值监控定义变量的 直接指向值
+                //    深监控：不仅监视定义变量的直接指向值，如果变量为引用类型，引用类型的值同样会被监控
+                //           深度监控是一个递归监控
+                // deep:true|false(默认取值)
+                deep:true
+            },
+            // vue 只能监控数组直接值，无法监控元素变化
+            // "arr[1]":function(){
+            //     console.log("arr[1]")
+            // }
+            arr:{
+                handler(){
+                    console.log("arr的监控方法")
+                },
+                deep:true
+            },
+            // watch监控时，如果被监控的数据变量为引用类型,并且开启深度监视，通过修改对象的属性值，触发监控
+            //     此时监控回调的 nv 和 ov 将是相同的新数据值
+            // obj:function(nv,ov){
+            //     console.log("obj-new-value:",nv);
+            //     console.log("obj-old-value:",ov);
+            // }
+            obj:{
+                handler(nv,ov){
+                    console.log("obj-new-value:",nv);
+                    console.log("obj-old-value:",ov);
+                },
+                deep:true
+            }
+        },
+        methods: {
+            resetUser(){
+                this.user = {
+                    name:'jack',
+                    age:33
+                }
+            },
+            resetObj(){
+                this.obj = {
+                    a:"aaa",
+                    b:111
+                }
+            }
+        },
+    });
+    // var arr = [1,2,3,4,5];
+    // // 数组下标的标准叫法，地址偏移量
+</script>
+
+</html>

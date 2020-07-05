@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        var user = {
+            name:"tom",
+            obj:{
+                a:1,
+                b:2,
+            },
+            obj2:{
+                c:3,
+                d:4
+            }
+        }
+        
+        // 克隆一份 user 赋值给 user1
+
+
+        // 引用赋值
+        // var user1 = user;
+
+        // js 浅克隆 （只复制对象的第一层数据变量）
+        // var user1 = {};
+        // for (let key in user) {
+        //    user1[key] = user[key];
+        // }
+        var user1 = { ...user }; // 浅克隆模式
+        
+        // js 深克隆 （将对象的所有属性包括后代属性都进行复制）
+        // 基本使用 - 采用递归算法
+        //      特点：1、方法自调  (死循环)
+        //           2、明确结束点
+        // var i = 0;
+        // function show(){
+        //     console.log("show");
+        //     i++;
+        //     if(i<=100){
+        //         show();
+        //     }
+        // }
+        // show();
+
+        var user2 = {};
+
+        // 高配法
+        function clone(arg,target){
+            if(arg&&(arg.toString() === "[object Object]"||Array.isArray(arg))){
+                for (let key in arg) {
+                    if(arg[key].toString() === "[object Object]"){
+                        target[key] = clone(arg[key],{});
+                        continue;
+                    }
+                    if(Array.isArray(arg[key])){
+                        target[key] = clone(arg[key],[]);
+                        continue;
+                    }
+                    target[key] = arg[key];
+                }
+                return target;
+            }
+            return arg;
+        }
+        user2 = clone(user,user2);
+        // console.log(clone("asdasdas"));
+
+        // 低配法
+        var user3 = JSON.parse(JSON.stringify(user));
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

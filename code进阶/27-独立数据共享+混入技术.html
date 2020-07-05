@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>msg:{{ msg }}</p>
+        <input type="text" v-model="msg">
+        <p>user:{{ user }}</p>
+
+        <hr>
+        <comp-a></comp-a>
+    </div>
+    <hr>
+    <div id="root">
+        <p>msg:{{ msg }}</p>
+        <input type="text" v-model="msg">
+        <p>user:{{ user }}</p>
+    </div>
+    <template id="compA">
+        <div>
+            <p>msg:{{ msg }}</p>
+            <input type="text" v-model="msg">
+            <p>user:{{ user }}</p>
+        </div>
+    </template>
+</body>
+<script>
+
+    // 1、定义可以被所有vue实例使用的，具有劫持功能的数据对象
+    Vue.prototype.$state = Vue.observable({
+        msg: "测试数据",
+        user: {
+            name: "tom"
+        }
+    });
+
+    const stateMix = {
+        computed: {
+            msg: {
+                get() {
+                    return this.$state.msg;
+                },
+                set(nv) {
+                    // console.log(this)
+                    this.$state.msg = nv;
+                }
+            },
+            user: {
+                get() {
+                    return this.$state.user;
+                },
+                set(nv) {
+                    this.$state.user = nv;
+                }
+            }
+        },
+    }
+
+    new Vue({
+        mixins: [stateMix],
+        el: "#app",
+        // mounted() {
+        //     console.log(this.$state)
+        // },
+        components: {
+            CompA: {
+                mixins: [stateMix],
+                template: "#compA"
+            }
+        }
+    })
+    new Vue({
+        mixins: [stateMix],
+        el: "#root"
+    })
+
+</script>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p mv-text="msg"></p>
+        <p mv-text="msg"></p>
+        <hr>
+        <p mv-text="info"></p>
+        <p mv-text="info"></p>
+
+
+    </div>
+</body>
+<script>
+    // 提供一个用于构建具有 响应功能的 对象构造函数
+    //  接收 参数 options  包含了描述关联DOM的  el 属性和 数据仓库 data
+    function Mvvm(options) {
+        // console.log(options.el);
+
+        // 通过定义的 el 属性值 获取实例对应的 DOM元素
+        this.root = document.querySelector(options.el);
+        // 将传递的数据对象 存储为当前实例的一个 私有数据仓库
+        this._data = options.data;
+
+        // 循环对应的数据仓库
+        for (let key in this._data) {
+            // 根据变量定义 需要调用的 选择器规则
+            let sel = "[mv-text=" + key + "]";
+            //  console.log(str);
+
+            // 在关联的DOM元素（容器）中查找具有该选择的 所有 DOM对象
+            let arr = this.root.querySelectorAll(sel);
+            // console.log(key, arr)
+
+            // 通过循环的方式完成对于关联DOM的初始化数据定义
+            for (let i in arr) {
+                arr[i].textContent = this._data[key];
+            }
+
+            // 在当前的 mv 实例对象上，完成 数据仓库变量的 劫持拦截操作
+            Object.defineProperty(this, key, {
+                get() {
+                    console.log(key, "取值拦截");
+                    return this._data[key];
+                },
+                set(nv) {
+                    console.log(key, "赋值操作");
+                    this._data[key] = nv;
+
+                    // 当发现变量发生变化时，对于变量有关的所有DOM元素进行 更新操作
+                    for (let i in arr) {
+                        arr[i].textContent = this._data[key];
+                    }
+                }
+            })
+        }
+    }
+
+    // 通过构造器创建响应实例
+    //  el 属性描述实例 和DOM的关系
+    //  data 属性描述实例的 可响应数据变量
+    var mv = new Mvvm({
+        el: "#app",
+        data: {
+            msg: "msg变量",
+            info: "info变量",
+            aaa: "aaaaa"
+        }
+    });
+
+
+
+
+
+</script>
+
+</html>

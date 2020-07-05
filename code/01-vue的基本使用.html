@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 
+        在HTML页面中直接通过 script 标签加载 vue的核心语法文件
+        核心语法文件会为整个项目的运行环境（浏览器提供的window对象）
+        vue核心语法库，会在环境中添加一个全局变量 ,变量名称 Vue
+        提供的Vue为使用 Vue框架的关键变量
+     -->
+     <!-- 
+        JS的对象创建方式
+        1、字面量方式
+        var user = { 对象属性：值 }
+        2、构造函数方式
+        function User(){
+            this.属性 = 属性值；
+        }
+        var u = new User();
+      -->
+      <!-- 
+          开发的语法习惯
+            js 程序员在项目开发时的一种自我限制要用
+            1、方法是构造方法 ，首字母大写，且遵循驼峰命名法
+            2、在对象中属性名称以 _ 开头的 为私有属性，该属性不能在对象外部调用
+            3、如果方法参数形参名称为 options ,说明该参数为 Object 类型
+       -->
+    <script src="./js/vue.js"></script>
+    <!-- <script src="./js/vue.min.js"></script> -->
+    <script>
+        window.onload = function(){
+            // 1、通过关键字 new 创建一个 Vue的 实例 对象
+            //   vue 的后续 页面和数据的开发，都将基于这个实例对象
+            // new Vue(options);
+            //      options 取值 为一个 对象数据
+            //      vue的基础语法学习，就是在学习该对象怎么配置以及使用方式
+            // var obj = { };
+            // new Vue(obj);
+            new Vue({
+                // key:value,key:value……
+                // 2、将vue实例 和 页面的某个的元素产生关联
+                // el:string - 定义元素的 选择器
+                //      el 属性的作用：描述当前vue实例和那个页面元素有关系
+                //      限制vue的语法使用范围 = 被 el 描述的元素内部 是当前 vue实例的语法实现区域
+                //      独立实例的页面关系 = 每个实例关联的页面元素 不会出现重复
+                // el的特性 取值为元素选择器
+                //         el 只会在页面中选择第一个匹配上的元素
+                // el指定的DOM元素的要求
+                //        1、元素必须是非 HTML HEAD（包含head中的定义标签） BOODY 标签
+                // element select
+                el:"#app",
+                // data 属性用于描述 vue 环境中 为试图提供数据支持的 数据模型
+                //   vue的数据仓库 之一
+                data:{
+                    msg:"aaaa"
+                }
+            });
+            // new Vue({
+            //     el:".aaa",
+            //     data:{
+            //         msg:"bbb"
+            //     }
+            // })
+        }
+    
+    </script>
+</head>
+<body>
+    <div id="app">
+        <!-- 
+            视图语法的定义：实现容器和实例的数据方法功能的关联
+            插值表达式语法：将容器对应的vue实例的数据仓库中的变量，取值到页面
+        -->
+        <p>{{ msg }}</p>
+        <input type="text" v-model="msg">
+    </div>
+    <hr>
+    <!-- <div class="aaa" id="app">
+        <p>{{ msg }}</p>
+        <input type="text" v-model="msg">
+    </div> -->
+</body>
+</html>

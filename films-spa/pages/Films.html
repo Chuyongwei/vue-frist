@@ -1,0 +1,49 @@
+<template>
+    <!-- 首页分类列表 start -->
+    <div class="films-box">
+        <div class="list-name">
+            <span>热门电影</span>
+        </div>
+        <film-list class="content-list" :list="FilmsList"></film-list>
+        <!-- <div class="content-list"> -->
+        <!-- 电影展示组件 start -->
+        <!-- <film-item v-for="film in FilmsList" :key="film.filmId" :film=" film "></film-item> -->
+        <!-- 电影展示组件 end -->
+        <!-- </div> -->
+    </div>
+    <!-- 首页分类列表 end -->
+</template>
+<script>
+    const Films = Vue.extend({
+        template:document.currentScript.ownerDocument.querySelector("template"),
+        components: {
+            NavBar: NavBar,
+            FilmList
+        },
+        data(){
+            return {
+                FilmsList: []
+            }
+        },
+        methods: {
+            loadFilms() {
+                $.ajax({
+                    url: "http://127.0.0.1:80/filmApi/loadFilms.php",
+                    dataType: "json",
+                    data: {
+                        size: 11
+                    },
+                    success: (data) => {
+                        console.log(this, data);
+                        this.FilmsList = data.result;
+                    }
+                })
+            }
+        },
+        mounted() {
+            this.loadFilms();
+        },
+    })
+
+
+</script>

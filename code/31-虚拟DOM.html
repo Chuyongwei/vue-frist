@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        文本
+        <p>{{ msg }}</p>
+    </div>
+    <input type="button" value="创建vue实例" onclick="initVue()">
+</body>
+<script>
+    // 1、根据指定的模板结构创建一个具有特点功能的 JS 对象结构
+    // vnode 虚拟DOM
+    var emlentObj = {
+        tag:"div",
+        content:[
+            "文本",
+            {
+                tag:"p",
+                content:[
+
+                ]
+            }
+        ]
+    }
+    // 2、在vue的容器创建过程中，通过render函数根据上述JS对象创建一个只存在于内存的DOM结构树
+    function render(domObj){
+        var tempDom = document.createElement(domObj.tag);
+        var domStr = "";
+        var doms = [];
+        for (var i in domObj.content) {
+            if(typeof domObj.content[i] === "string"){
+                domStr += domObj.content[i];
+            }else{
+               var dom = render(domObj.content[i]);
+               doms.push(dom);
+            }
+        }
+        tempDom.innerHTML = domStr;
+        for (let key in doms) {
+           tempDom.appendChild(doms[key]);
+        }
+        return tempDom;
+    }
+    var a = render(emlentObj);
+    console.log(a);
+    // 3、将创建的新的DOM结构，替换到页面中 el 的指向位置
+    function initVue(){
+        var vm = new Vue({
+            el: "#app",
+            data:{
+                msg:"测试变量"
+            }
+        });
+    }
+</script>
+
+</html>

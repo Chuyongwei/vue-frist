@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="never">
+    <style>
+        .img {
+            width: 200px;
+            height: 400px;
+            border: 1px solid black;
+        }
+    </style>
+    <title>Document</title>
+    <script>
+        // window.onload
+        // Image 构造器 是用于创建 DOM对象 img 的
+        var img = new Image();
+        img.src = "https://img4q.duitang.com/uploads/item/201505/06/20150506202234_thzKj.jpeg";
+        img.onload = function () {
+            // 该方法表示当前 图片标签加载完成且对应图片请求完成后执行的回调
+            /*
+                访问一个页面必然会加载多个 静态资源 （包括js css 图片 视频 音频）
+                为了加速浏览器的静态资源访问速度，浏览器定义了一个静态资源缓存概念
+                    当页面中需要访问一个远端静态资源
+                    1、先判断该资源在浏览器的缓存中是否存在
+                    2、如果存在直接读取缓存，如果不存在才进行访问
+            */
+            console.log(1);
+            var tempImg = document.getElementById("aa");
+            tempImg.src = "https://img4q.duitang.com/uploads/item/201505/06/20150506202234_thzKj.jpeg";
+        }
+    </script>
+</head>
+
+<body>
+    <img class="img" id="aa" src="../img/5-121204193935-51.gif">
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>user:{{ user }}</p>
+        <input type="text" v-model="user.name">
+        <input type="button" value="添加年龄" @click="addAge()">
+        <hr>
+        <p>user1:{{ user1 }}</p>
+        <!-- 
+            在定义vue实例的数据仓库时，虽然没有定义对应的属性，
+                但v-model依然可以自行完成劫持功能
+                除v-model以外的其它属性写入方法（插值表达式和其它指令），无法完成数据劫持
+        -->
+        <input type="text" v-model="user1.name">
+        <input type="text" v-model="user1.age">
+        <p>user1.skill:{{ user1.skill }}</p>
+        <p v-text="user1.skill"></p>
+        <input type="button" value="添加技能" @click="addSkill()">
+        <hr>
+        <p>arr:{{ arr }}</p>
+        <input type="button" value="修改下标1的值" @click=" arr[1]='ccc' ">
+        <input type="button" value="添加新数据" @click=" arr[arr.length]='ddd' ">
+        <!-- 
+            vue对于数组的数据响应变量，只能局有限 vue 内置重写的 变异方法上
+            原生JS中对于数据的所有下标操作，属性操作将无法完成响应式功能
+        -->
+        <input type="button" value="添加新数据" @click=" arr.push('eeee') ">
+        <hr>
+        <p>user.aaa:{{ user.aaa }}</p>
+        <input type="text" name="" id="" v-model="user.aaa">
+        <input type="button" value="删除数据劫持" @click="deleteAaa()">
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            user:{
+                name:"tom",
+                aaa:"aaa"
+            },
+            user1:{},
+            arr:[1,2]
+        },
+        methods: {
+            addAge(){
+                // 在vue对象创建完成后，为数据变量增加的新属性，不会执行Object.defineProperty
+                // 因此新增加的属性在vue中将不会开启 数据拦截和响应功能
+                // this.user.age = 23;
+                // this.$set(target,key,value)
+                // target 添加监控的目标对象,不能直接对vue实例的 data 、computed 等数据仓库属性直接操作
+                // key 被监控的变量名称
+                // value 添加的监控中
+                // this.$set(this.user,"age",23);
+                // this.$set(this.$data,"info","aaaa");
+                Vue.set(this.user,"age",33);
+                console.log(this);
+            },
+            addSkill(){
+                this.user1.skill = "html";
+            },
+            deleteAaa(){
+                console.log(this);
+                // this.$delete(target,key);
+                // target 被删除的数据劫持变量的所属对象
+                // key 被删除的变量名称
+                // $delete 删除的不仅包含该变量的劫持功能，同时包含数据变量本身
+                this.$delete(this.user,"aaa")
+            }
+        },
+    });
+</script>
+</html>

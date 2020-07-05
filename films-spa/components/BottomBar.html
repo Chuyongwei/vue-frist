@@ -1,0 +1,76 @@
+<template>
+    <!-- 底部评论区 start -->
+    <footer class="footer-box">
+        <div class="comment-input" @click=" showInput=true ">不想说点什么吗？</div>
+        <div class="comment-detail" v-show="showInput" @click.self="showInput=false">
+            <div class="user-input" @click.stop>
+                <h4>头像</h4>
+                <ul class="user-head" @click.capture.stop="userChoose($event.target)">
+                    <li 
+                        v-for="(c, i) in 24" :key="i"
+                        :class=" { 'user-choose':userComment.userImg==`user${c}.png`  } " 
+                        :img.prop=" `user${c}.png` " 
+                        :style=" `background-image: url(./imgs/users/user${c}.png)` "
+                    ></li>
+                </ul>
+                <h4>昵称</h4>
+                <input class="user-nikename" type="text" placeholder="昵称" v-model="userComment.username">
+                <h4>评分</h4>
+                <div class="film-source reset-star">
+                    <span class="star-img open"></span>
+                    <span class="star-img open"></span>
+                    <span class="star-img open"></span>
+                    <span class="star-img close"></span>
+                    <span class="star-img close"></span>
+                    <span class="star-source">7.9</span>
+                </div>
+                <h4>评论</h4>
+                <textarea class="user-message" placeholder="留下点足迹..." v-model="userComment.msg"></textarea>
+                <div class="send-btn">
+                    <span @click=" showInput=false ">关闭</span>
+                    <span @click=" addUserComment() ">发送</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- 底部评论区 end -->
+</template>
+<script>
+    const BottomBar = Vue.extend({
+        template:document.currentScript.ownerDocument.querySelector("template"),
+        data(){
+            return {
+                showInput:false,
+                userComment:{
+                    userImg:"user1.png",
+                    username:"",
+                    userSource:7,
+                    msg:""
+                }
+            }
+        },
+        methods: {
+            userChoose(targer){
+                // console.log("用户选择头像",targer);
+                // console.log("用户选择头像",targer.img);
+                if(targer.img){
+                    this.userComment.userImg = targer.img;
+                }
+            },
+            addUserComment(){
+                this.$emit("addcomment",{
+                    ...this.userComment,
+                    time:new Date().toLocaleTimeString()
+                });
+                this.userComment = {
+                    userImg:"user1.png",
+                    username:"",
+                    userSource:7,
+                    msg:""
+                }
+                this.showInput = false;
+            }
+        },
+    })
+
+</script>

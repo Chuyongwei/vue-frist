@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>msg:{{ msg }}</p>
+        <p v-text="msg" ></p>
+        <!-- <p v-pre></p> -->
+        <p v-aaaa:b.c=" msg+'1111' ">自定义的指令</p>
+        <input type="text" v-model="msg">
+        <p v-aaaa=" 'red' ">自定义的指令</p>
+        <p v-aaaa=" 'blue' ">自定义的指令</p>
+        <p v-aaaa=" 'pink' ">自定义的指令</p>
+        <p v-aaaa=" '#ccc' ">自定义的指令</p>
+
+    </div>
+</body>
+<script>
+    /*
+        vue 指令的完整定义语法
+            v-指令名称:指令参数.指令修饰符.指令修饰符 = 指令取值
+            指令执行时，可以存在三种数据的传递
+                1、指令参数
+                2、指令的修饰符
+                3、指令的取值
+    */
+
+    // 指令扩展
+    // Vue.directive(id,definition)
+    // id 描述指令名称,自定义指令在页面应用时，需要添加 v- 前缀，提供vue运行指令和属性的区分
+    // definition(el,binding) 描述指令执行时的方法
+    //      el 描述调用该指令的 DOM元素对象
+    //      binding 描述指令在页面使用时的 相关配置和定义数据，提供是一个对象数据
+    //          - name:  指令名称
+    //          - rawName: 指令调用时的表达式
+    //          - expression:  指令取值表单时，= 右侧的取值表达式
+    //          - arg:  指令参数 , : 后定义的参数名称
+    //          - oldArg: 是指令 ： 后定义的 旧的参数名称
+    //          - value: 指令 = 右侧 表达式的计算结果
+    //          - oldValue:指令绑定变量发生变化后，调用该方法时 ，存储的 上次的结果值
+    //          - modifiers: 指令修饰符，.后定义的修饰符名称
+    //          - modifiers 为 Object{ key:value } 类型数据
+    //              - key 为修饰符名称，value取值 为 true
+    //              - true 作为value表示当前指令修饰符被启用
+    //              - 对象中没有修饰符key ,表示指令修饰符不启用
+
+    Vue.directive("aaaa",function(el,binding){
+        console.log("自定义指令aaaa",el,binding);
+        // el.style.color = "red";
+        el.style.color = binding.value;
+    });
+
+    // 图片预加载 = （前端页面优化的一个操作方式）
+    // https://img4q.duitang.com/uploads/item/201505/06/20150506202234_thzKj.jpeg
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"测试数据"
+        }
+    })
+</script>
+</html>

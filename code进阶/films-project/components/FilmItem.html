@@ -1,0 +1,22 @@
+<template>
+    <div class="film-item">
+        <div class="film-img" style="background-image: url(./films-project/imgs/film.jpg)"></div>
+        <div class="film-title" style="color:red;">蚁人2：黄蜂女现身</div>
+        <div class="film-source">
+            <span class="star-img open"></span>
+            <span class="star-img open"></span>
+            <span class="star-img open"></span>
+            <span class="star-img close"></span>
+            <span class="star-img close"></span>
+            <span class="star-source">7.9</span>
+        </div>
+    </div>
+</template>
+<script>
+    const filmItem = Vue.extend({
+        template:document.currentScript.ownerDocument.querySelector("template")
+    });
+    // 如果组件定义为驼峰方式名称，页面使用时 需要转换为 连字符
+    Vue.component("filmItem",filmItem);
+
+</script>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-for=" item in arr ">
+            {{ item }}
+            <p v-for=" arg in item ">{{ arg }}</p>
+        </div>
+        <hr>
+        <ul>
+            <li v-for=" (user,i) in arr1 ">
+                {{ i+1 }}>
+                <span>name:{{ user.name }}</span>
+                <span>age:{{ user.age }}</span>
+            </li>
+        </ul>
+        <ul>
+            <li v-for=" (user,i) in arr1 ">
+                {{ i+1 }}>
+                <span v-for=" (v,k) in user ">{{ k +":"+ v }}</span>
+            </li>
+        </ul>
+        <hr>
+        <ul>
+            <li v-for=" item in objs.item1 ">{{ item }}</li>
+        </ul>
+        <hr>
+        <ul v-for="arr in objs">
+            <li v-for=" item in arr ">{{ item }}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data:{
+            arr:[
+                [1,2,3,4],
+                [11,22,33,44],
+                [111,222,333,444]
+            ],
+            // 对象数组
+            arr1:[
+                {name:"aa",age:23},
+                {name:"bb",age:21},
+                {name:"cc",age:20}
+            ],
+            // 数组对象
+            objs:{
+                item1:[1,2,3,4],
+                item2:[11,22,33,44],
+                item3:[111,222,333,444]
+            }
+        },
+        methods:{
+            show(arg){
+                console.log(arg);
+            }
+        }
+    })
+</script>
+
+</html>

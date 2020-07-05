@@ -1,0 +1,37 @@
+<template>
+    <!-- 电影展示组件 start -->
+    <div class="film-item">
+        <div class="film-img" :style=" `background-image: url(${film.filmImg})` "></div>
+        <div class="film-title">{{ film.filmName }}</div>
+        <div class="film-source">
+            <span class="star-img open"></span>
+            <span class="star-img open"></span>
+            <span class="star-img open"></span>
+            <span class="star-img close"></span>
+            <span class="star-img close"></span>
+            <span class="star-source">{{ getSource }}</span>
+        </div>
+    </div>
+    <!-- 电影展示组件 end -->
+</template>
+
+<script>
+    const FilmeItem = Vue.extend({
+        template:document.currentScript.ownerDocument.querySelector("template"),
+        // props:["film"]
+        props:{
+            film:{
+                type:Object,
+                default(){
+                    return {}
+                }
+            }
+        },
+        computed: {
+            getSource(){
+                return (this.film.source*1).toFixed(1);
+            }
+        },
+    })
+
+</script>

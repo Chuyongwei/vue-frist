@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            margin-bottom: 500px;
+        }
+    </style>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <!-- <p v-for="(item, index) in arr" :key="index">{{ (index+1)>=10?(index+1):('0'+(index+1)) }}:{{ item }}</p> -->
+            <!-- <p v-for="(item, index) in arr" :key="index">{{ index | addZero }}:{{ item }}</p> -->
+            <p v-for="(item, index) in arr" :key="index">{{ index+1 | addZero() }}:{{ item }}</p>
+        </div>
+        <hr>
+        <p>getNum:{{ getNum }}</p>
+        <p>过滤fc:{{ num | fc }}</p>
+        <input type="button" value="+" @click=" num=num+1 ">
+        <input type="button" value="-" @click=" num=num-1 ">
+        <hr>
+        <p>{{ num1 | fc }}</p>
+        <p>产品A的人民币：{{ num2 | fc1( '￥' ) }}</p>
+        <p>产品A的美元：{{ num3 | fc1( '$',1,2,3,4 ) }}</p>
+        <hr>
+        <p>day:{{ day }}</p>
+        <p>formatDate：{{ day | formatDate }}</p>
+        <p>formatDate：{{ day | formatDate("y年m月d日 h时M分s秒") }}</p>
+        <p>formatDate：{{ day | formatDate("y/m/d h:M:s") }}</p>
+        <p>formatDate：{{ day | formatDate("y年m月d日") }}</p>
+        <p>formatDate：{{ day | formatDate("h时M分s秒") }}</p>
+        <p>ms:{{ ms | formatDate }}</p>
+        <p>ms:{{ ms | formatDate("h时M分s秒") }}</p>
+
+
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            arr:["上海","南京","苏州","镇江","甘肃","上海","南京","苏州","镇江","甘肃","上海","南京","苏州","镇江","甘肃"],
+            num:10,
+            num1:100,
+            num2:99,
+            num3:1,
+            day:new Date(),
+            ms:1568619400557
+        },
+        computed: {
+            // getIndex(){
+            //     // return ?
+            //     return (index+1)>=10?(index+1):('0'+(index+1));
+            // }
+            getNum(){
+                return "￥"+this.num;
+            }
+        },
+        // 过滤器
+        filters:{
+            // key 开发者自行定义的过滤器执行方法名
+            // value 取值Function
+            // 使用语法上：  index | addZero  ,  index | addZero()
+            // | 就是过滤的调用关键字
+            //     1、关键字 | 左侧的定义数据，左侧的数据表示待处理数据变量，只能定义一个
+            //        待处理的数据变量会作为 | 右侧方法的 第一个固定形参进行传递
+            //     2、当过滤器在页面使用时，定义了括号，该过滤器可以直接在页面接收多个额外形参
+            //        形参的取值和 事件方法定义的取值基本类似，包含 vue仓库数据，匿名变量，简单表达式
+            //        过滤器定义的额外参数，将从 该方法的  第二个形参位置向后进行顺序传入
+            addZero:function(value){
+                console.log("addZero过滤器方法:",value);
+                return value>=10?value:"0"+value;
+            },
+            fc(value){
+                return "￥"+value;
+            },
+            fc1(value,a,b,c,d,e,f){
+                console.log(value,a,b,c,d,e,f)
+                return a+value;
+            },
+            formatDate(day,str){
+                if(!(day instanceof Date)&&typeof day =="number"){
+                    day = new Date(day);
+                }else if(!(day instanceof Date)){
+                    return day;
+                }
+                let y = day.getFullYear();
+                let m = day.getMonth()+1;
+                m = m>=10?m:"0"+m;
+                let d = day.getDate();
+                d = d>=10?d:"0"+d;
+
+                let h = day.getHours();
+                let mm = day.getMinutes();
+                let s = day.getSeconds();
+
+                if(!str){
+                    return y+"-"+m+"-"+d+" "+h+":"+mm+":"+s;
+                }
+                str = str.replace("y",y);
+                str = str.replace("m",m);
+                str = str.replace("d",d);
+                str = str.replace("h",h);
+                str = str.replace("M",m);
+                str = str.replace("s",s);
+                return str;
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ msg }}</p>
+        <p v-text="msg"></p>
+        <hr>
+        <p>{{ getMsg }}</p>
+        <p v-text=" getMsg "></p>
+        <input type="button" value="赋值getMsg" @click=" getMsg='新值' ">
+        <hr>
+        <p>{{ fun() }}</p>
+        <p v-text="fun()"></p>
+        <input type="button" value="赋值fun" @click=" fun='新值' ">
+        <hr>
+        <p>{{ getInfo }}</p>
+        <input type="button" value="赋值info" @click=" getInfo='新值' ">
+        <hr>
+        <input type="button" value="输出vue实例对象this" @click="printThis()">
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        // data 会直接将 fun 作为 数据劫持的一个属性进行定义
+        /*
+            data:{
+                fun:function(){
+                    return "data中的fun";
+                }
+            }
+            Object.defineProperty(this, "fun", {
+                get(){
+                    return data['fun'];
+                },
+                set(nv){
+                    data['fun'] = nv;
+                }
+            })
+        */
+        data:{
+            msg:"data中的msg",
+            fun:function(){
+                return "data中的fun";
+            }
+        },
+        // 计算属性的定义
+        // 为 vue 实例提供了一个特殊的数据存储仓库，所以计算属性内部定义的所有属性方法
+        // 都可以直接作为 页面调用变量使用
+        /*
+            computed:{
+                getMsg:function(){
+                    console.log("计算属性getMsg");
+                    return "默认字符串";
+                },
+                getInfo:{
+                    get:function(){
+                        return "测试info-get";
+                    },
+                    set:function(nv){
+                        console.log("info-set",nv)
+                    }
+                }
+            }
+            Object.defineProperty(this, "getInfo", {
+                get:computed.getInfo.get,
+                set:computed.getInfo.set
+            })
+            Object.defineProperty(this, "getMsg", {
+                get:computed.getInfo.get,
+                set:undefined
+            })  
+        */
+        computed: {
+            // key 为开发者自行定义的名称，描述计算属性的名字
+            // value 取值 Function | Object 定义计算属性的功能
+            //      value 取值为方法时，页面通过插值表达式或指令进行调用时，相当语法方法执行
+            //      value 取值为对象时，必须遵循取值方法 { get:function,set:function }
+            // 计算属性在页面使用时，会自动执行方法
+            // 计算属性在默认情况下是只读的
+            getMsg:function(){
+                console.log("计算属性getMsg");
+                return "默认字符串";
+            },
+            getInfo:{
+                get:function(){
+                    return "测试info-get";
+                },
+                set:function(nv){
+                    console.log("info-set",nv)
+                }
+            }
+        },
+        methods: {
+            printThis(){
+                console.log(this);
+            }
+        },
+    })
+</script>
+</html>

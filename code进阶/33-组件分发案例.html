@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/swiper.css">
+    <script src="./js/swiper.js"></script>
+    <script src="./js/vue.js"></script>
+    <style>
+        .div1 {
+            height: 200px;
+            background-color: cadetblue;
+        }
+
+        .div2 {
+            height: 200px;
+            background-color: cornflowerblue;
+        }
+
+        .div3 {
+            height: 200px;
+            background-color: darkgoldenrod;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 
+        <div class="swiper-container" ref="loop">
+            <div class="swiper-wrapper">
+
+                <div class="div1 swiper-slide">slider1</div>
+                <div class="div2 swiper-slide">slider2</div>
+                <div class="div3 swiper-slide">slider3</div>
+
+            </div>
+        </div>
+        <hr>
+        <div class="swiper-container" ref="loop1">
+            <div class="swiper-wrapper">
+                <div class="div1 swiper-slide">slider1</div>
+                <div class="div2 swiper-slide">slider2</div>
+                <div class="div3 swiper-slide">slider3</div>
+            </div>
+        </div> 
+        -->
+        <swiper-view>
+            <div class="div1 swiper-slide">slider1</div>
+            <div class="div2 swiper-slide">slider2</div>
+            <div class="div3 swiper-slide">slider3</div>
+        </swiper-view>
+        <hr>
+        <swiper-view :options=" { autoplay:false } ">
+            <div class="div1 swiper-slide">slider11111</div>
+            <div class="div2 swiper-slide">slider22222</div>
+            <div class="div3 swiper-slide">slider33333</div>
+            <template v-slot:pagination>
+                <div class="swiper-pagination">dadasd</div>
+            </template>
+        </swiper-view>
+    </div>
+
+    <template id="swiper">
+        <div class="swiper-container" ref="loop">
+            <div class="swiper-wrapper">
+
+                <slot></slot>
+
+            </div>
+            <slot name="pagination"></slot>
+        </div>
+    </template>
+</body>
+<script>
+    // 基于Swiper 封装的具有特点功能的组件
+    Vue.component("SwiperView", {
+        template: "#swiper",
+        props: {
+            options: {
+                type: Object,
+                default() {
+                    return {
+                        autoplay: true,
+                        pagination: {
+                            el: '.swiper-pagination',
+                        },
+                    }
+                }
+            }
+        },
+        methods: {
+            initSwiper() {
+                new Swiper(this.$refs.loop, this.options);
+            }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                this.initSwiper();
+            })
+        },
+    })
+
+
+    new Vue({
+        el: "#app",
+        // mounted() {
+        //     this.$nextTick(() => {
+        //         new Swiper(this.$refs.loop, {
+        //             autoplay: true,//可选选项，自动滑动
+        //         })
+        //         new Swiper(this.$refs.loop1,{
+        //             autoplay:true
+        //         })
+        //     })
+        // },
+    })
+
+</script>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <comp-a></comp-a>
+        <hr>
+        <comp-b></comp-b>
+    </div>
+    <hr>
+    <div id="root">
+        <comp-b></comp-b>
+    </div>
+</body>
+<script>
+
+    var compA = Vue.extend({
+        template:"<h1>compA</h1>"
+    });
+    // 当前全局组件名称和局部组件名称相同时
+    // 在具有该局部组件的 实例容器中，局部组件优先级更高
+    Vue.component("compB",{
+        template:"<h1>全局compB</h1>"
+    });
+
+    new Vue({
+        el:"#app",
+        // components 描述当前vue实例将要定义的 多个局部组件
+        // 局部组件只能被使用于当前 实例 对应的 容器范围内
+        components:{
+            // key:value
+            // key 为定义的组件名称
+            // value 为定义组件时的构造函数或者配置项
+            compA:compA,
+            compB:{
+                template:"<h1>{{ msg }}</h1>",
+                data(){
+                    return {
+                        msg:"测试数据"
+                    }
+                }
+            }
+        }
+    });
+    new Vue({
+        el:"#root"
+    })
+</script>
+</html>

@@ -1,0 +1,295 @@
+@import "./var.less";
+.content-box{
+    background-color: #cccccc;
+    position: absolute;
+    top: @topHeight;
+    bottom: 0rem;
+    left: 0rem;
+    right: 0rem;
+}
+
+// 标题名称
+.list-name{
+    // margin-bottom: 0.2rem;
+    >span{
+        display: inline-block;
+        margin: 0.24rem 0rem 0.24rem 0.1rem;
+        padding: 0rem 0.2rem 0rem 0.1rem;
+        font-size: 0.32rem;
+    }
+    >span:first-child{
+        border-left: 4px solid @blue;
+    }
+    >span.list-more{
+        float: right;
+        font-size: 0.28rem;
+        color: @blue;
+    }
+}
+
+// 首页样式
+.home-box{
+    position: absolute;
+    top: 0rem;
+    bottom: 0rem;
+    left: 0rem;
+    right: 0rem;
+    overflow-y: auto;
+}
+.list-content{
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-bottom: 0.1rem;
+    font-size: 0rem;
+    &::after{
+        content: "";
+        width: 0.1rem;
+        display: inline-block;
+    }
+}
+
+// 分类页样式
+.films-box{
+    position: absolute;
+    top: 0rem;
+    bottom: 0rem;
+    left: 0rem;
+    right: 0rem;
+    overflow-y: auto;
+}
+.content-list{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: left;
+    width: 100%;
+    font-size: 0rem;
+    >*{
+        margin-top: 0.2rem;
+    }
+}
+
+// 首页 分类页 公用样式
+.list-content,.content-list{
+    >.film-item{
+        width: 2.35rem;
+        height: 4.55rem;
+        display: inline-block;
+        margin-left: 0.1rem;
+        vertical-align: top;
+        >.film-img{
+            height: 3.6rem;
+            background-color: @gray-light;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        >.film-title{
+            font-size: 0.26rem;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin: 0.1rem;
+        }
+    }
+}
+
+.detail-box{
+    position: absolute;
+    top: 0rem;
+    bottom: @bottomHeight;
+    left: 0rem;
+    right: 0rem;
+    overflow-y: auto;
+}
+// 详情页样式
+.film-name{
+    padding: 0.3rem;
+    padding-bottom: 0rem;
+    font-size: 0.38rem;
+    color: @gray-dark;
+}
+.film-info{
+    // css 新布局方式 grid 网格异形布局
+    // 浏览器内核已做全面兼容
+    color: @gray-dark;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding: 0rem 0.2rem 0.3rem 0.2rem;
+    >.film-tip{
+        grid-column-start: 1;
+        grid-column-end: 2;
+        >.comment-count{
+            display: grid;
+            grid-template-columns: 4fr 2fr;
+            margin: 0.2rem 0rem;
+            align-items: center;
+            >.film-source{
+                grid-column-start: 1;
+                grid-column-end: 2;
+            }
+            >.star-count{
+                grid-column-start: 2;
+                grid-column-end: 3;
+                font-size: 0.3rem;
+            }
+        }
+        >.film-desc{
+            font-size: 0.26rem;
+            height: 2.4rem;
+            overflow: hidden;
+            padding-right: 0.2rem;
+            line-height: 0.5rem;
+            >p>span{
+                color: @blue;
+                padding-right: 0.1rem;
+            }
+        }
+    }
+    >.film-img{
+        height: 3.4rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 4%;
+        background-color: @gray-light;
+    }
+}
+.film-plot{
+    color: @gray-dark;
+    padding: 0rem 0.2rem 0.3rem 0.2rem;
+    >.plot-title{
+        font-size: 0.36rem;
+        color: @gray;
+        margin-bottom: 0.2rem;
+    }
+    >.plot-content{
+        font-size: 0.24rem;
+        text-indent: 0.56rem;
+        line-height: 0.4rem;
+    }
+}
+.film-actor{
+    color: @gray-dark;
+    padding-bottom:0.3rem;
+    font-size: 0rem;
+    >.actor-title{
+        font-size: 0.36rem;
+        color: @gray;
+        padding: 0rem 0.2rem;
+        margin-bottom: 0.2rem;
+    }
+    .actor-list{
+        white-space: nowrap;
+        width: 100%;
+        overflow-x: auto;
+        &::after{
+            content: "";
+            width: 0.2rem;
+            display: inline-block;
+        }
+        >.actor-item{
+            width: 1.6rem;
+            padding-left:0.2rem;
+            display: inline-block;
+            vertical-align: top;
+            >.actor-img{
+                background-color: @gray-light;
+                width: 1.6rem;
+                height: 2.2rem;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            >.actor-name{
+                white-space:pre-wrap;
+                margin: 0.1rem 0rem;
+                font-size: 0.24rem;
+                text-align: center;
+            }
+        }
+    }
+}
+
+// 评论组件
+.film-comments{
+    color: @gray-dark;
+    padding-bottom:0.3rem;
+    font-size: 0rem;
+    >.comment-title{
+        font-size: 0.36rem;
+        color: @gray;
+        padding: 0rem 0.2rem;
+        margin-bottom: 0.2rem;
+    }
+    >.comment-list{
+        width: 100%;
+        padding-bottom: 0.1rem;
+    }
+}
+.comment-item{
+    display: grid;
+    grid-template-columns: 1fr 6fr;
+    grid-template-rows: auto auto;
+    padding: 0rem 0.2rem 0.6rem 0.2rem;
+    >.user-img{
+        width: 100%;
+        >img{
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+    }
+    >.user-info{
+        font-size: 0.3rem;
+        padding-left: 0.2rem;
+        >.user-name{
+            margin-top: 0.1rem;
+            >.film-source{
+                float: right;
+            }
+        }
+        >.user-time{
+            margin-top: 0.1rem;
+            font-size: 0.26rem;
+            color: @gray;
+        }
+    }
+    >.user-conent{
+        font-size: 0.24rem;
+        text-indent: 0.56rem;
+        line-height: 0.4rem;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        padding-left: 0.2rem;
+    }
+}
+
+
+
+// 评分样式
+.film-source{
+    margin: 0rem 0.1rem 0rem 0rem;
+    >span{
+        height: 0.22rem;
+        width: 0.22rem;
+        line-height: 0.22rem;
+        margin-left: 0.1rem;
+    }
+    >.star-img{
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+    >.open{
+        background-image: url(../imgs/star-open.png);
+    }
+    >.close{
+        background-image: url(../imgs/star-close.png);
+    }
+    >.star-source{
+        padding-right: 0.1rem;
+        font-size: 0.3rem;
+    }
+    >.star-tip{
+        color:@gray;
+        font-size: 0.28rem;
+    }
+}

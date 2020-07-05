@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <h1>=====></h1>
+    <hr>
+    <div id="app">
+        <p>{{ msg }}</p>
+    </div>
+    <hr>
+    <h1><======</h1>
+    <!-- <span id="root"></span> -->
+    <template id="aaa">
+        <div itany="aaa">
+            <input type="button" value="事件" @click="print()">
+            <h3>{{ msg }}</h3>
+        </div>
+    </template>
+    <hr>
+    <template>
+        <!-- 
+            开发者在开发时使用的一个模板定义区
+            浏览器不会解析该定义区中相关标签内容,
+            在程序运行时，通过JavaScript实习根据模板实例化DOM对象
+        -->
+        <div>
+            <h4>asdasdasd</h4>
+        </div>
+    </template>
+</body>
+<script>
+    var vm = new Vue({
+        /*
+            el 
+                1、主要的目的是为当前vue实例的容器提供 页面的定义位置
+                2、次要目的如果没有定义template属性时，el将充当实例的容器
+        */
+        el:"#app",
+        /* 
+            template
+                为当前的vue实例提供页面构成结构的模板
+        */
+        // template属性描述的dom结构，最终将作为当前vue实例对应容器定义到页面中
+        // template:"<h3 @click='print()'>{{ msg }}</h3>",
+
+        /*  
+            template 定义为 stringEL选择字符串时，
+            将该选择器对应的 DOM 元素内部的元素作为模板提供给vue实例使用
+            被指定的模板结构，必须存在一个唯一的 根节点元素
+        */
+        template:"#aaa",
+        data:{
+            msg:"vue的数据"
+        },
+        methods: {
+            print(){
+                console.log("print方法");
+            }
+        },
+    })
+
+    console.log(vm);
+
+</script>
+</html>

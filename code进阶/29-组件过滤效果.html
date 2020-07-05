@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        .bc1{
+            background-color: brown;
+            color: white;
+            width: 100%;
+        }
+        .bc2{
+            background-color:teal;
+            color: white;
+            width: 100%;
+        }
+        .start{
+            opacity: 1;
+            transform: translateX(0);
+            position: absolute;
+            
+        }
+        .active{
+            transition: all 3s ease;
+        }
+        .end{
+            opacity: 0;
+            transform: translateX(-100%);
+            position: absolute;
+
+        }
+        .start1{
+            opacity: 0;
+            transform: translateX(200%);
+            position: absolute;
+
+        }
+        .active1{
+            transition: all 3s ease;
+        }
+        .end1{
+            opacity: 1;
+            transform: translateX(0);
+            position: absolute;
+
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="切换H1" @click=" flag = !flag">
+        <hr>
+        <!-- 
+            <transition></transition>  ==> 仅对包裹的一个 根 标签和组件生效
+            <transition-group></transition-group> ==> 可对被包裹的多个根标签进行动画装载，但必须为每个根标签定义 唯一key
+            对被包裹的元素或者组件进行 进入和离开时的动画定义
+
+            切换切换的动画 样式 定义装载
+        -->
+        <!-- <h1 v-if="flag">测试动画标签</h1> -->
+        <hr>
+        <!-- <transition
+            enter-class="start1"
+            enter-active-class="active1"
+            enter-to-class="end1"
+
+            leave-class="start"
+            leave-active-class="active"
+            leave-to-class="end"
+        >
+            <h1 class="bc1" v-if="flag">测试动画标签1</h1>
+        </transition> -->
+        <transition-group
+            enter-class="start1"
+            enter-active-class="active1"
+            enter-to-class="end1"
+
+            leave-class="start"
+            leave-active-class="active"
+            leave-to-class="end"
+        >
+            <h1 class="bc1" v-if="flag" key="group1">测试动画标签1</h1>
+            <h1 class="bc2" v-if="!flag" key="group2">测试动画标签2</h1>
+        </transition-group>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            flag:true
+        }
+    })
+
+</script>
+</html>

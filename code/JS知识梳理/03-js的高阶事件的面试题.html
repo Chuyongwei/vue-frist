@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 
+        Event loop  事件循环机制  （JS单线程）
+            宏任务
+            微任务
+    -->
+</head>
+<body>
+    <!-- 
+        （10 分）
+        页面中有一个 ul , ul内部会通过后台数据提供完成 li 的定义
+        问题：1、具体多少个 li 未知
+             2、每个li都需要能够触发 click 事件,并可传递当前li对应的值
+        问：1、怎么为li的事件绑定
+                动态元素创建和事件绑定+变量提示  （2分）
+            2、能否完成浏览器的性能优化
+                冒泡的事件方式完成子元素的事件触发：事件委托   (2分)
+                通过事件捕获方式完成父元素的事件触发：事件代理  (6分)
+    -->
+    <ul id="ul">
+
+    </ul>
+    <script>
+        var arr = [1,2,3,4,5,6,7]; // 10万个
+        // document.createElement();
+        // document.addEventListener();
+        // document.appendChild();
+        var ulDom = document.getElementById("ul");
+        // for (var i = 0; i < arr.length; i++) {
+        //     let li = document.createElement("li");
+        //     li.innerHTML = arr[i];
+        //     let temp = arr[i];
+        //     li.addEventListener("click",function(){
+        //         console.log(temp);
+        //     })
+        //     ulDom.appendChild(li);
+        // }
+
+        ulDom.addEventListener("click",function(event){
+            console.log(event.target);
+            console.log(event.target.getAttribute("data-item"));
+            event.stopPropagation();
+        },true)
+        for (var i = 0; i < arr.length; i++) {
+            let li = document.createElement("li");
+            let temp = arr[i];
+            li.innerHTML = temp;
+            li.setAttribute("data-item",temp);
+            ulDom.appendChild(li);
+        }
+    </script>
+</body>
+
+</html>

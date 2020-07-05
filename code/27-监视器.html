@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/jquery.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="wd">
+        <input type="button" value="百度一下" @click="loadBaiduData()">
+        <ul>
+            <li v-for="(item, index) in result" :key="index">{{ item }}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            wd: "html",
+            result: [],
+        },
+        watch: {
+            wd: {
+                handler: function (nv, ov) {
+                    this.loadBaiduData();
+                },
+                // 在vue实例创建完成后，用户介入操作前，主动执行一次 监视方法
+                // immediate:true|false(默认取值)
+                immediate:true
+            }
+        },
+        methods: {
+            loadBaiduData() {
+                // 发送一个ajax请求，加载百度的数据结果
+                $.ajax({
+                    url: "https://www.baidu.com/su",
+                    methods: "get",
+                    dataType: "jsonp",
+                    data: {
+                        wd: this.wd
+                    },
+                    jsonp: "cb",
+                    success: (data) => {
+                        this.result = data.s;
+                    }
+                })
+            }
+        },
+    })
+</script>
+
+</html>

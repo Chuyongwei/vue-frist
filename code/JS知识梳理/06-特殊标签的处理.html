@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        td{
+            border: 1px solid black;
+        }
+    </style>
+    <script>
+        function getSelectedValue() {
+            var selDom = document.querySelector("#selectDom");
+            var optArr = selDom.querySelectorAll("option");
+            for (let i = 0; i < optArr.length; i++) {
+                if (optArr[i].selected) {
+                    // JS中option对于的DOM元素属性value
+                    //  在页面构成时如果定义了 attr value 属性，dom value 取值时为定义属性值
+                    //  在页面构成时没有定义 attr value 属性，dom value 取值时为textConten值
+                    console.log(optArr[i].value)
+                }
+            }
+            // console.log()
+        }
+        function getSelectedValue1() {
+            var selDom = document.querySelector("#selectDom");
+            // var optArr = selDom.querySelectorAll("option");
+            var optArr = selDom.options;
+            console.log(optArr)
+            for (let i = 0; i < optArr.length; i++) {
+                if (optArr[i].selected) {
+                    // JS中option对于的DOM元素属性value
+                    //  在页面构成时如果定义了 attr value 属性，dom value 取值时为定义属性值
+                    //  在页面构成时没有定义 attr value 属性，dom value 取值时为textConten值
+                    console.log(optArr[i].value)
+                }
+            }
+            // console.log()
+        }
+        function getSelectedValue2() {
+            var selDom = document.querySelector("#selectDom");
+            // var optArr = selDom.querySelectorAll("option");
+            var optArr = selDom.options;
+            var si = selDom.selectedIndex;
+            console.log(optArr, si);
+            console.log(optArr[si].value);
+        }
+        function getSelectedValue3() {
+            var selDom = document.querySelector("#selectDom");
+            // select 标签的 value属性会随着子元素 option 选中变化，发生动态修改
+            console.log(selDom.value);
+        }
+        function setSelectedD() {
+            var selDom = document.querySelector("#selectDom");
+            selDom.value = "D";
+        }
+    </script>
+</head>
+
+<body>
+    <select id="selectDom">
+        <option>a</option>
+        <option value="B">b</option>
+        <option>c</option>
+        <option value="D">d</option>
+        <option>e</option>
+        <option>f</option>
+    </select>
+    <input type="button" value="获取选中项的值" onclick="getSelectedValue()">
+    <input type="button" value="获取选中项的值1" onclick="getSelectedValue1()">
+    <input type="button" value="获取选中项的值2" onclick="getSelectedValue2()">
+    <input type="button" value="获取选中项的值3" onclick="getSelectedValue3()">
+    <input type="button" value="选中D" onclick="setSelectedD()">
+
+    <hr>
+    <table id="tb">
+        <!-- table DOM对象中 包含 rows 描述包含所有行的集合 -->
+        <tr>
+            <!-- tr DOM对象中 包含 cells 描述单元格集合 -->
+            <td>1-1</td>
+            <td>1-2</td>
+            <td>1-3</td>
+        </tr>
+        <tr>
+            <td>2-1</td>
+            <td>2-2</td>
+            <td>2-3</td>
+        </tr>
+    </table>
+
+
+</body>
+
+</html>

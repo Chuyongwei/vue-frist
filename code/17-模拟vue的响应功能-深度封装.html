@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p mv-text="msg"></p>
+        <p mv-text="msg"></p>
+        <hr>
+        <p mv-text="info"></p>
+        <p mv-text="info"></p>
+
+
+    </div>
+</body>
+<script>
+    function Watcher(){}
+    Watcher.prototype._initDom = function($el,key){
+        let sel = `[mv-text=${key}]`;
+        this[key] = $el.querySelectorAll(sel);
+    }
+    Watcher.prototype.initData = function(_data){
+        for (let key in _data) {
+            this.notyify(key,_data[key]);
+        }
+    }
+    Watcher.prototype.notyify = function(key,value){
+        let domList = this[key];
+        for (let i in domList) {
+            domList[i].textContent = value;
+        }
+    }
+
+    function Mvvm(options){
+        this._init(options.el,options.data);
+    }
+    Mvvm.prototype._init = function(el,data){
+        this.$el = document.querySelector(el);
+        this._data = data;
+        this._deps(this._data);
+    }
+
+    // 软件开发的 单一职能原则
+    Mvvm.prototype._deps = function(_data){
+
+        let watcher = new Watcher();
+
+        for (let key in _data) {
+            watcher._initDom(this.$el,key);
+            Object.defineProperty(this,key,{
+                get(){
+                    return _data[key];
+                },
+                set(nv){
+                    _data[key] = nv;
+                    watcher.notyify(key,nv);
+                }
+            });
+        }
+        watcher.initData(_data)
+        // console.log(watcher);
+    }
+
+    // 通过构造器创建响应实例
+    //  el 属性描述实例 和DOM的关系
+    //  data 属性描述实例的 可响应数据变量
+    var mv = new Mvvm({
+        el: "#app",
+        data: {
+            msg: "msg变量",
+            info: "info变量",
+            aaa: "aaaaa"
+        }
+    });
+
+
+
+
+
+</script>
+
+</html>

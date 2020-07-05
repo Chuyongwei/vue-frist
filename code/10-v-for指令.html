@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <!-- 
+                for(var 临时变量 in 待循环值){
+                    循环的执行功能（执行代码，临时变量的获取）
+                }
+             -->
+            <!-- <li v-for=" item in arr "  循环执行体  >  循环执行体   </li> -->
+            <!-- <li v-for=" (item,index|key,count) in arr "  循环执行体  >  循环执行体   </li> -->
+
+            <!-- <li v-for=" item in arr ">  -->
+            <li v-for=" (item,index,count) in arr "> 
+                <!-- 
+                    item 为循环的零时变量 
+                    在v-for的执行范围内，item可以直接认为是一个不能被修改的特殊数据仓库变量
+                    1、如果循环的为数组
+                        item 临时变量为 每次循环的值
+                        index 每次循环的下标
+                        count 没有值
+                    2、如果循环的是对象
+                        item 临时变量为 每次循环的键值对的 值
+                        key 每次循环的键值对的 键
+                        count 是对象循环时 从 0 开始的计数器
+                    3、如果循环的是数值
+                        item 临时变量为 每次循环的累加结果，从1开始循环，每次循环+1
+                        index 为循环数值时的循环下标
+                        count 没有值
+                    3、如果循环的是字符串
+                        item 临时变量为 字符串转数组后，每次循环的数组值
+                        index 为循环字符串时的循环下标
+                        count 没有值
+                -->
+                <span>{{ index }}</span>
+                <span @click="show( item )">{{ item }}</span>
+                <span>count:{{ count }}</span>
+            </li>
+        </ul>
+        <hr>
+        <ul>
+            <!-- <li v-for="item in user">{{ item }}</li> -->
+            <li v-for="(item,key,count) in user">{{ key }}:{{ item }}:{{ count }}</li>
+        </ul>
+        <hr>
+        <ul>
+            <!-- 
+                for(var i=0;i<循环的数值;i++){}
+            -->
+            <!-- <li v-for="item in 5">{{ item }}</li> -->
+            <li v-for="(item,index,count) in 5">{{ index }}:{{ item }}:{{ count }}</li>
+        </ul>
+        <hr>
+        <ul>
+            <!-- <li v-for="item in str">{{ item }}</li> -->
+            <li v-for="(item,index,count) in str">{{ index +":"+ item +":"+ count }}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data:{
+            arr:["上海","南京","苏州","镇江","甘肃"],
+            user:{
+                name:"tom",
+                age:23
+            },
+            str:"abcdefg"
+        },
+        methods:{
+            show(arg){
+                console.log(arg);
+            }
+        }
+    })
+</script>
+
+</html>

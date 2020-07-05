@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+        [v-text]{
+            display: none;            
+        }
+    </style>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>v-text</h3>
+        <p>v-text 和 插值表达式功能一致，v-text不会完成字符拼接操作</p>
+        <p>{{ arr }}</p>
+        <p id="aa" v-text=" arr "></p>
+        <p v-text=" '字符串' "></p>
+        <hr>
+        <p>数组arr:{{ arr }}</p>
+        <p v-text=" arr ">数组arr:</p>
+        <h3>v-html 用于将字符串标签在浏览器进行解析，保留了v-text的基本功能</h3>
+        <div>{{ str }}</div>
+        <div v-text="str"></div>
+        <div v-html="str"></div>
+        <div v-html="arr"></div>
+        <h3>v-pre 告知vue定义了v-pre指令的标签内部所有vue语法不需要执行 </h3>
+        <div v-pre>
+            <div>{{ str }}</div>
+            <div v-text="str"></div>
+            <div v-html="str"></div>
+        </div>
+        <h3>v-once 在程序第一运行时，v-once包裹的所有vue语法将进行执行，当执行完成后，会直接转为纯静态代码</h3>
+        <p>msg:{{ msg }}</p>
+        <div v-once>
+            <p>msg:{{ msg }}</p>
+        </div>
+        <h3>v-cloak</h3>
+        <div v-cloak style="background-color: #ccc;">
+            <p>msg:{{ msg }}</p>
+        </div>
+        <p v-text="arr" style="background-color: #ccc;">{{ "aaaa" }}</p>
+    </div>
+    <script>
+        setTimeout(function(){
+            new Vue({
+                el: "#app",
+                data: {
+                    msg:"字符串",
+                    arr: [1, 2, 3, 4, 5],
+                    str: "<p style='color:red;'>字符串标签</p>"
+                }
+            })
+        },6000)
+    </script>
+</body>
+
+</html>

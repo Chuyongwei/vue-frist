@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 
+            被once修饰的事件绑定，一旦执行完成一次后，会直接将该事件进行删除 
+             为事件绑定时，记录事件触发一次后调用 removeEventListener
+        -->
+        <input type="button" value="一次性事件"  @click.once="printMsg()">
+        <hr>
+        <h4>按键修饰符</h4>
+        <!-- 
+            在开发过程中，有一些情况下需要 对事件触发的按键进行 判断，只有当按键匹配时才会执行方法
+        -->
+        <pre>{{ msg }}</pre>
+        <textarea cols="10" rows="5" @input=" msg = $event.target.value "></textarea>
+        <textarea cols="10" rows="5" @keyup=" setMsg($event) "></textarea>
+        <textarea cols="10" rows="5" @keyup=" setMsg($event) "></textarea><br>
+        <textarea cols="10" rows="5" @keyup.Enter=" msg = $event.target.value "></textarea>
+        <textarea cols="10" rows="5" @keyup.13=" msg = $event.target.value "></textarea>
+        <hr>
+        <textarea cols="10" rows="5" @keyup.c.ctrl=" copyFun($event.target.value) "></textarea><br>
+        <textarea cols="10" rows="5" @keyup.a.b=" copyFun($event.target.value) "></textarea>
+        <hr>
+        
+        
+
+
+
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data:{
+                msg:""
+            },
+            methods: {
+                // ES6 中新增的 对象简化定义方式
+                //   1、对象定义时，如果 对象属性名和值得变量引用名称相同时，可以直接只定义属性名
+                //   2、对象定义时，如果 对象属性取值为一个匿名函数，可直接省略 function关键字和:分割符号
+                printMsg(){
+                    console.log("printMsg")
+                },
+                setMsg(e){
+                    // console.log(e);
+                    // console.log(e.target.value)
+                    // if(e.key=="Enter"){
+                    if(e.keyCode==13){
+                        this.msg = e.target.value;
+                    }
+                },
+                copyFun(v){
+                    console.log(v);
+                }
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

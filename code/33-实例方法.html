@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p id="ccc" ref="a">{{ info }}</p>
+        <input type="text" v-model="info">
+    </div>
+    <hr>
+    <input type="button" value="触发了vue的挂载" onclick="appendVue()">
+</body>
+<script>
+    var vm = new Vue({
+        // el:"#app",
+        data:{
+            info:"测试变量"
+        },
+        methods: {
+            show(){}
+        },
+    });
+    function appendVue(){
+        // vm.$mount(el) 实例方法，将对应vue实例 手动关联到页面中（实例挂载）
+        //      el 属性的作用就是完成 定为操作
+        vm.$mount("#app");
+    }
+    // console.log(vm);
+</script>
+</html>

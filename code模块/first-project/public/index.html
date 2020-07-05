@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="referrer" content="never">
+
+    <!-- 
+      <%= BASE_URL %> vue模块项目中提供全局页面构成变量
+      BASE_URL 动态服务器地址 == 会因为项目对服务器根地址的配置发生变化
+      目的为了自动适配程序开发时 服务器地址的变化
+      BASE_URL的默认值为 / 
+     -->
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <!-- <link rel="stylesheet" href="<%= BASE_URL %>css/base.css"> -->
+    <script src="<%= BASE_URL %>js/common.js"></script>
+    <title>first-project</title>
+  </head>
+  <body>
+    <!-- <h1>测试</h1> -->
+    <!-- 检测浏览器是否支持JS代码 -->
+    <noscript>
+      <strong>We're sorry but first-project doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+
+    <!-- vue构建时使用的容器模板和定位 -->
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

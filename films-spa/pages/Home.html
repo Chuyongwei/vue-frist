@@ -1,0 +1,73 @@
+<template>
+    <div class="home-box">
+        <!-- 首页分类列表 start -->
+        <div v-for="type in types" :key="type.typeId">
+            <div class="list-name">
+                <span>{{ type.typeName }}</span>
+                <span class="list-more" @click=" $emit('update:page','Films') ">更多 > </span>
+            </div>
+            <film-list class="list-content" :list="type.list"></film-list>
+            <!-- <div class="list-content"> -->
+            <!-- 电影展示组件 start -->
+            <!-- <film-item v-for="film, index in type.list" :key="film.filmId" :film=" film "></film-item> -->
+            <!-- 电影展示组件 end -->
+            <!-- </div> -->
+        </div>
+        <!-- 首页分类列表 end -->
+    </div>
+</template>
+
+<script>
+
+    const Home = Vue.extend({
+        template: document.currentScript.ownerDocument.querySelector("template"),
+        components: {
+            // NarBar:NarBar
+            // FilmItem:FilmeItem
+            FilmList
+        },
+        data() {
+            return {
+                types: [],
+                // filmList:[]
+            }
+        },
+        methods: {
+            loadTypes() {
+                $.ajax({
+                    url: "http://127.0.0.1/filmApi/loadTyps.php",
+                    dataType: "json",
+                    success: (data) => {
+                        // console.log(data);
+                        this.types = data.result;
+                        for (let i = 0; i < data.result.length; i++) {
+
+                            this.loadFilmsById(data.result[i].typeId, i);
+
+                        }
+                    }
+                })
+            },
+            loadFilmsById(typeId, i) {
+                $.ajax({
+                    url: "http://127.0.0.1/filmApi/loadFilms.php",
+                    dataType: "json",
+                    data: {
+                        typeId: typeId
+                    },
+                    success: (data) => {
+                        // console.log(data);
+                        // this.filmList = data.result;
+                        // this.types[i].list = data.result;
+                        this.$set(this.types[i], "list", data.result);
+                    }
+                })
+            }
+        },
+        mounted() {
+            this.loadTypes();
+            // console.log(this);
+        },
+    })
+
+</script>

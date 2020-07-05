@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+  <p id="app"></p>
+</body>
+<script>
+    
+    var vm = new Vue({
+        el:"#app",
+        template:"<h5>template</h5>",
+        /*
+            render 取值为 固定方法，该方法携带一个固定形参
+            形参为 一个 Function类型数据，用于在render函数中进行调用执行
+            该方法封装了 document.createElement ,用于动态创建 DOM元素
+
+            render 函数的主要目的，是通过该方法的执行，创建当前vue实例对于的 DOM元素结构
+        */
+        render:function(createElement){
+            // console.log(this);
+            // createElement(a,b,c,d)
+            //      a 描述被创建的dom类型
+            //      b 定义创建标签的相关属性 取值必须为Object
+            //          需要通过定义特殊属性描述值
+            //          attrs 定义HTML属性
+            //          domProps 定义标签的DOM属性
+            //          on 定义事件
+            //      c 取值为Array|string 定义当前标签的内部的子标签|内容
+            let temp = createElement("div",null,[
+                createElement("h1",{
+                    attrs:{
+                        itany:"网博",
+                        id:"aaa"
+                    },
+                    domProps:{
+                        aa:"aaaa"
+                    }
+                },"h1的内容"),
+                createElement("p",[
+                    "p标签的内容-",
+                    this.msg
+                ]),
+                "aaaaaa"
+            ]);
+            // VNode {tag: "div", data: undefined, children: undefined, text: undefined, elm: undefined, …}
+            // 虚拟DOM ？
+            console.log(temp);
+            return temp;
+        }, 
+        data:{
+            msg:"vue实例的属性变量"
+        }
+    });
+</script>
+</html>

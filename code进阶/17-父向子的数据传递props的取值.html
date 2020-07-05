@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        #app{
+            background-color: #cccccc;
+            padding: 10px;
+        }
+        .child{
+            background-color: pink;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h3>父组件范围</h3>
+        <p>msg:{{ msg }}</p>
+        <input type="text" v-model="msg">
+        <p>info:{{ info }}</p>
+        <hr>
+        <child-comp :msg=" msg " :info=" info " :name=" 123 " :arr=" arr "></child-comp>
+        <hr>
+        <child-comp :name=" 234 "></child-comp>
+        <hr>
+        <!-- <child-comp :info=" undefined "></child-comp> -->
+        <child-comp :info=" null " :name=" 456 "></child-comp>
+
+        
+    </div>
+
+    <template id="child">
+        <div class="child">
+            <h3>子组件范围</h3>
+            <p>msg:{{ msg }}</p>
+            <p>info:{{ info }}</p>
+            <p>name:{{ name }}</p>
+        </div>
+    </template>
+</body>
+<script>
+
+    Vue.component("ChildComp",{
+        template:"#child",
+        /*
+            props 取值分为两种数据类型 Array|Object
+                1、取值为数组,数组中的元素为需要被拦截的属性名称
+                2、取值为Object 定义被拦截数据的相关特性（包含默认定义，数据的相关校验）
+                    + 数据校验功能，不是为使用者提供提示，数据校验提示为开发者提供提示功能（控制台输出的）
+        */
+        // props:["msg","info"]
+        props:{
+            // key 为被拦截的属性变量名称
+            // value 如果取值为 为JS类型构造对象，默认完成数据类型校验
+            //       如果取值为 对象方式，通过详细定义描述传递的数据
+            msg:String,
+            info:{
+                // 描述传递的变量为 string 类型的数据
+                type:String,
+                // 描述当前变量的默认值，当组件使用时,未绑定该属性或该属性绑定的是undefined时，启用默认值
+                default:"默认值"
+            },
+            name:{
+                type:Number,
+                // 该配置描述 该属性 是否为组件使用时的必传数据 默认值为 false
+                required:true,
+                // 自定义校验规则,取值为方法，参数为传递的数据，在程序运行对传入的数据做校验操作
+                validator:function(value){
+                    // 通过 return false 或者 true 的方式 描述数据是否符合规则
+                    if(value>200){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            },
+            // default 默认值定义规则
+            //      1、 针对于基本数据类型而言，default 直接定义默认值即可
+            //      2、 针对于引用数据类型而言，default 必须以方法返回默认值方式进行定义
+            //              为了独立组件 数据
+            arr:{
+                type:Array,
+                // default:[]
+                default:function(){
+                    return [];
+                }
+            },
+            user:{
+                type:Object,
+                default(){
+                    return {}
+                }
+            }
+        }
+    });
+
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"父元素数据",
+            info:"测试数据",
+            arr:[1,2,3,4],
+            user:{
+                name:"tom"
+            }
+        }
+    })
+    
+</script>
+</html>

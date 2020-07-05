@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/jquery.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>历史请求记录：{{ arr }}</p>
+        <hr>
+        <input type="text" v-model="wd" @input="loadBaiduData()">
+        <input type="text" v-model="newWd">
+        <input type="text" v-model="wd">
+        <input type="button" value="百度一下" @click="loadBaiduData()">
+        <ul>
+            <li v-for="(item, index) in result" :key="index">{{ item }}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            wd:"",
+            result:[],
+            arr:[]
+        },
+        watch: {
+            // key 当前实例中已经存在的 数据仓库变量名称
+            //      为已知的具有数据劫持监视功能的 set 方法进行 方法扩展定义
+            // value 取值 Function | Object 定义监视器执行时的构成功能
+
+            // nv 和 ov 是监视器方法 自带的两个形参
+            //    nv 表示变量的新值
+            //    ov 表示变量的旧值
+            wd:function(nv,ov){
+                // console.log("wd发生改变")
+                // 监视器方法中的this 依然指向于当前的 vue实例
+                // console.log(this);
+                console.log(nv,ov)
+                this.loadBaiduData();
+
+                this.arr.push(ov);
+            }
+        },
+        computed: {
+            newWd:{
+                get(){
+                    return this.wd;
+                },
+                set(nv){
+                    this.wd = nv;
+                    this.loadBaiduData();
+                }
+            }
+        },
+        methods: {
+            loadBaiduData(){
+                // 发送一个ajax请求，加载百度的数据结果
+                $.ajax({
+                    url:"https://www.baidu.com/su",
+                    methods:"get",
+                    dataType:"jsonp",
+                    data:{
+                        wd:this.wd
+                    },
+                    jsonp:"cb",
+                    success:(data)=>{
+                        console.log(data.s,this);
+                        this.result = data.s;
+                    }
+                })
+            }
+        },
+    })
+</script>
+</html>

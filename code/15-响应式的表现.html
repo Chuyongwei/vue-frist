@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body{
+            margin-bottom: 500px;
+        }
+    </style>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ info }}</p>
+        <p>{{ info }}</p>
+        <p>{{ info }}</p>
+        <p>{{ info }}</p>
+        <p>{{ info }}</p>
+        <p>{{ info }}</p>
+        <p>{{ info }}</p>
+        <input type="button" value="为info赋值" @click=" info = '新值' ">
+        <hr>
+        <p :style=" 'color:'+color " >字体颜色</p>
+        <input type="color" @change=" color=$event.target.value ">
+        <hr>
+        <p v-show="flag">show1</p>
+        <p v-show="!flag">show2</p>
+        <input type="button" value="切换功能" @click=" flag = !flag ">
+        <p v-if="flag">if1</p>
+        <p v-if="!flag">if2</p>
+        <hr>
+        <p>num:{{ num }}</p>
+        <input type="button" value="+" @click=" num = num+1 ">
+        <input type="button" value="测试v-on的响应" @click="print(num)">
+        <hr>
+        <ul>
+            <li v-for="item in arr">{{ item }}</li>
+        </ul>
+        <input type="button" value="为数组添加新值" @click="addArrItem()">
+        <hr>
+        <!-- 
+            v-for 辅助循环（key属性定义）可以解决 循环值变化导致的 元素重复创建的问题
+                * 1、元素的 key 不能重复
+                * 2、key属性的取值一定是一个当前循环到的元素的 不变唯一描述
+            v-for 指令一般由于构成重复页面元素，项目而言，页面的多数重复元素都是有后台提供数据支持
+                对于后台返回的数据而言一般都会携带一个唯一表示数据字段
+                -> 如果后端返回的数据不具有唯一ID值
+                    1、要不考虑性能问题
+                    2、要么自己增加唯一ID（不推荐）
+         -->
+        <ul>
+            <li v-for="(item,index) in arr" :key=" item ">{{ item }}</li>
+        </ul>
+        <input type="button" value="为数组添加新值" @click=" arr.unshift(1) ">
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            info:"内存的变量info",
+            color:"red",
+            flag:true,
+            num:1,
+            arr:[1,2,3,4,5,6,7]
+        },
+        methods: {
+            print(arg){
+                console.log(arg)
+            },
+            addArrItem(){
+                // this.arr.push(Math.random());
+                this.arr.unshift(Math.random())
+            }
+        },
+    })
+
+</script>
+</html>

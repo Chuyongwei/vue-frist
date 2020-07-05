@@ -1,0 +1,55 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    background-color: @dark;
+}
+.app * {
+    background-color: @light;
+}
+// 标题名称
+.list-name{
+    // margin-bottom: 0.2rem;
+    >span{
+        display: inline-block;
+        margin: 0.24rem 0rem 0.24rem 0.1rem;
+        padding: 0rem 0.2rem 0rem 0.1rem;
+        font-size: 0.32rem;
+    }
+    >span:first-child{
+        border-left: 4px solid @blue;
+    }
+    >span.list-more{
+        float: right;
+        font-size: 0.28rem;
+        color: @blue;
+    }
+}
+// 评分样式
+.film-source{
+    margin: 0rem 0.1rem 0rem 0rem;
+    >span{
+        height: 0.22rem;
+        width: 0.22rem;
+        line-height: 0.22rem;
+        margin-left: 0.1rem;
+    }
+    >.star-img{
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+    >.open{
+        background-image: url("../../public/imgs/star-open.png");
+    }
+    >.close{
+        background-image: url("../../public/imgs/star-close.png");
+    }
+    >.star-source{
+        padding-right: 0.1rem;
+        font-size: 0.3rem;
+    }
+    >.star-tip{
+        color:@gray;
+        font-size: 0.28rem;
+    }
+}

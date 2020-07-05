@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>v-show:描述定义v-show指令的标签需不需要在页面显示</h3>
+        <div v-show="!flag">
+            <input type="button" value="登录">
+            <input type="button" value="注册">
+        </div>
+        <div v-show="flag">
+            <p>欢迎xxx登录网站(当前账号余额:{{ sum }})</p>
+        </div>
+        <pre>
+            v-show和v-if 其中重要的区别 操作元素的功能不同
+                + v-show 通过 对元素增加和删除 display：none 实现元素的显示和隐藏
+                + v-if 通过JS apppendChild 和 removeChild 方式实现元素的添加和删除
+            v-show 和 v-if 的使用场景
+                v-show 通过CSS方式显示和隐藏元素=不会重复创建DOM对象和删除DOM对象
+                v-if 通过JS反复创建DOM对象和删除DOM对象，完成元素的切换的
+        </pre>
+        <h3>v-if:描述定义v-if指令的标签需不需要在页面显示</h3>
+        <div id="div1" v-if="!flag">
+            <input type="button" value="登录">
+            <input type="button" value="注册">
+        </div>
+        <div id="div2" v-if="flag">
+            <p>欢迎xxx登录网站(当前账号余额:{{ sum }})</p>
+        </div>
+        <hr>
+        <p v-if="num>10">大于10</p>
+        <p v-else-if="num==10">等于10</p>
+        <p v-else>小于10</p>
+        <hr>
+        <p v-if="num>10">大于10</p>
+        <p v-if="num==10">等于10</p>
+        <p v-if="num<10">小于10</p>
+
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                flag: true,
+                sum:100.2,
+                num:10
+            }
+        })
+    </script>
+</body>
+
+</html>

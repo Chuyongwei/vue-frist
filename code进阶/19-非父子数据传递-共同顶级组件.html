@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        #app {
+            background-color: #cccccc;
+            padding: 10px;
+        }
+
+        .child {
+            background-color: pink;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h3>父组件</h3>
+        <p>msg:{{ msg }}</p>
+
+        <hr>
+        <child-one @update:msg=" upadateMsg "></child-one>
+        <hr>
+        <child-two :msg=" msg "></child-two>
+    </div>
+    <template id="childOne">
+        <div class="child">
+            <h3>子组件1</h3>
+            <p>msg:{{ msg }}</p>
+            <input type="text" v-model="msg">
+            <input type="button" value="发送MSG数据" @click=" sendMsg() ">
+        </div>
+    </template>
+    <template id="childTwo">
+        <div class="child">
+            <h3>子组件2</h3>
+            <p>msg:{{ msg }}</p>
+
+        </div>
+    </template>
+</body>
+<script>
+    Vue.component("ChildOne", {
+        template: "#childOne",
+        data(){
+            return {
+                msg:"组件1的数据"
+            }
+        },
+        methods: {
+            sendMsg(){
+                this.$emit("update:msg",this.msg);
+            }
+        },
+        mounted() {
+            this.sendMsg();
+        },
+    });
+    Vue.component("ChildTwo", {
+        template: "#childTwo",
+        props:["msg"]
+    });
+    new Vue({
+        el: "#app",
+        data:{
+            msg:""
+        },
+        methods: {
+            upadateMsg(arg){
+                console.log(arg)
+                this.msg = arg;
+            }
+        },
+    });
+</script>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/animate.css">
+    <script src="./js/vue.js"></script>
+    <style>
+        .div1{
+            height: 100px;
+            background-color:cadetblue;
+            position: absolute;
+            width: 100%;
+        }
+        .div2{
+            height: 100px;
+            background-color: blanchedalmond;
+            position: absolute;
+            width: 100%;
+        }
+        .div{
+            height: 140px;
+        }
+    
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="切换元素显示" @click="flag=!flag">
+        <transition-group
+            enter-active-class="animated fadeInRight"
+            leave-active-class="animated fadeOutLeft"
+        >
+            <div class="div1" v-if="flag" key="group1">切换元素1</div>
+            <div class="div2" v-if="!flag" key="group2">切换元素2</div>
+        </transition-group>
+        <hr>
+        <div class="div"></div>
+        <transition-group
+            enter-active-class="animated fadeInRight"
+            leave-active-class="animated fadeOutLeft"
+        >
+            <p v-for="(item, index) in arr" :key="item">{{ item }}</p>
+        </transition-group>
+        <input type="button" value="添加新元素" @click=" arr.push( Math.random()) ">
+    </div>
+</body>
+<script>
+   
+    new Vue({
+        el:"#app",
+        data:{
+            flag:true,
+            arr:[]
+        }
+    })
+
+</script>
+</html>

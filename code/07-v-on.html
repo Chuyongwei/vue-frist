@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script>
+        function print() {
+            console.log("JS定义的方法");
+        }
+
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 
+            1、基本事件绑定
+                <标签 v-on:事件名称 = "回调函数()" ></标签>
+                + v-on 只能绑定当前容器对于的vue实例 方法仓库 中的自定义方法
+                + vue为了简化事件绑定语法，提供关键字 @ 替代 v-on:
+                + v-on 绑定的事件如果没有形参需要传递 ==> 提供组件化使用 ？？
+                    <标签 v-on:事件名称 = "回调函数" ></标签>
+                    等效于
+                    <标签 v-on:事件名称 = "回调函数()" ></标签>
+                + vue v-on 事件绑定是 JS的 动态事件绑定
+        -->
+        <input type="button" value="vue事件绑定js事件" v-on:click=" print() "><br>
+        <input type="button" value="vue事件绑定vue事件仓库中的自定义方法" v-on:click=" show() "><br>
+        <input type="button" value="vue事件绑定vue事件仓库中的自定义方法" @click=" show() "><br>
+        <input type="button" value="vue事件绑定vue事件仓库中的自定义方法" @click=" show "><br>
+        <hr>
+        <!-- 
+            2、一个DOM对象的多事件处理
+                + 不同事件类型的绑定
+                    - 独立的绑定多个事件
+                    - 定义 v-on 取值为 对象方式，v-on不能定义:事件名称
+                        <标签 v-on = " 对象类型数据 " ></标签>
+                        对象类型数据 = 定义匿名对象，在vue实例的数据仓库中定义对象
+                            key 描述事件名，value描述事件回调方法(不能加（）导致方法被执行)
+                + 相同事件类型的不同回调绑定
+                    - v-on js的实现虽然是动态事件绑定，但定义语法依然保留页面定义模式（保留页面事件规则）
+                        在一个标签上只能为同一个事件绑定一次回调
+                    - v-on 取值为 以 , 隔开的方法字符串 = 定义的方法必须定义 （）
+                        在JS 定义一次 addEventListener 事件监听，但在回调函数中调用多个回调方法
+                    - v=on 取值为 Array 属性，完成多事件绑定 , 必须在回调函数后补充 （）
+        -->
+        <input type="text" @blur="fun1()" @focus="fun2()"><br>
+        <input type="text" v-on=" { blur:fun1,focus:fun2 } "><br>
+        <input type="text" v-on=" evenObj "><br>
+        <input type="button" value="为click绑定多个回调" @click="fun1()" @click="func2"><br>
+        <input type="button" value="为click绑定多个回调" @click="fun1()" @click="func2"><br>
+        <input type="button" value="为click绑定多个回调" @click="fun1(),fun2()"><br>
+        <input type="button" value="为click绑定多个回调" @click="[fun1(),fun2()]"><br>
+        <hr>
+        <!-- 
+            3、事件处理时的 this 取值
+                + vue标签上以v-on绑定的事件，直接在页面传入的this 将用于指向于 全局（window） 对象
+                + vue的自定义事件内部 输出this ，该this 将指向当前的 vue实例对象
+        -->
+        <input type="button" value="传入页面this&方法中的this" @click="printThis(this)"><br>
+        <!--
+            3、形参的传递
+                + v-on 事件绑定的回调函数，如果可以传递参数，参数可以传入如下值
+                    - 匿名变量：以JS的语法方式定义的变量值
+                    - 传递简答表达式返回的计算结果
+                    - 可以直接传递 当前容器 对于的 vue实例中的变量
+                    - 通过事件源对象 获取 对应的 DOM 对象
+                        vue 为了保证 event 不会出现冲突或覆盖情况，vue核心语法将 event 重写为 $event
+            
+            > 方法执行的特殊应用，直接在方法中获取当前vue实例数据仓库中的变量，无需通过形参传递、
+                + 借助于 vue中的自定义方法，方法中的this指向于 当前 vue实例的特性,获取仓库中的变量或执行自定义方法
+                + 特性：构建vue实例时定义的 data 数据仓库和 methods方法仓库中的 属性和方法
+                    最后 都会直接作为 当前 vue实例的属性和方法，定义在vue实例的根属性上
+        -->
+        <input type="button" value="可以传递的形参数据" @click="printArg( 123,true,[1,2],'字符串' )"><br>
+        <input type="button" value="可以传递的形参数据" @click="printArg( 1+1,true&&false,Math.PI,true?'是':'否' )"><br>
+        <input type="button" value="可以传递的形参数据" @click="printArg( msg,num )">
+        <input type="button" value="可以传递的形参数据1" @click="printDataVar( )"><br>        
+        <input type="button" value="传递的形参为仓库变量，但仓库未定义" @click="printArg( info )"><br>
+        <hr>
+        <!-- vue将 event 认为 是数据仓库中的一个属性 -->
+        <input type="text" @input="printUserInput( event )"><br>
+        <input type="text" @input="printUserInput( $event )"><br>
+        <input type="text" @input="printUserInput( $event.target.value )"><br>
+        <hr>
+        <!-- 
+            4、v-on 取值 Inline Statement (行内表达式)
+                + vue2.1^ 新增 功能，简化开发者在实际项目开发时，对事件的定义
+                + v-on 在完成事件绑定时，以一定需要绑定方法，可以直接绑定一个简单的JS表达式
+                    表达式，一般分为两种，一种用于完成数据仓库变量赋值操作，另外一种用于完成方法调用返回值得获取
+                    在完成数据仓库属性赋值的同时，完成简单的运算操作
+        -->
+        <h3 v-show=" flag ">h3标签1</h3>
+        <h3 v-show=" !flag ">h3标签2</h3>
+        <input type="button" value="切换标签显示" @click="changeFlag()">
+        <input type="button" value="切换标签显示" @click=" flag = !flag ">
+        <p>str:{{ str }}</p>
+        <input type="button" value="随机为str赋值" @click=" str = Math.random() ">
+    </div>
+    <script>
+
+        new Vue({
+            el: "#app",
+            data: {
+                str:"",
+                flag:true,
+                msg:"data-msg",
+                num:100,
+                event:"data-event",
+                evenObj: {
+                    blur: function () {
+                        console.log("data-blur");
+                    },
+                    focus: function () {
+                        console.log("data-focus");
+                    }
+                }
+            },
+            // 描述当前vue实例的方法定义区域=方法仓库
+            methods: {
+                // key 描述方法名称 value 描述方法回调
+                // value 只能取值为 function
+                show: function () {
+                    console.log("vue实例方法仓库中的 show 方法");
+                },
+                fun1: function() {
+                    console.log("fun1");
+                },
+                fun2: function() {
+                    console.log("fun2");
+                },
+                printThis: function(arg){
+                    console.log("arg:",arg);
+                    console.log("方法中的this:",this);
+                },
+                printArg: function(arg1,arg2,arg3,arg4){
+                    console.log(arg1,arg2,arg3,arg4)
+                },
+                printDataVar: function(){
+                    console.log(this);
+                    console.log(this.data.msg);
+                    console.log(this.data.num);
+                    console.log(this.msg);
+                    console.log(this.num);
+                    console.log(this.fun1)
+                    this.fun1();
+                },
+                printUserInput: function(v){
+                    console.log(v);
+                },
+                changeFlag: function(){
+                    this.flag = !this.flag;
+                }
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>

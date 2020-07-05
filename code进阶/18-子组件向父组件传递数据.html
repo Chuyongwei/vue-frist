@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        #app {
+            background-color: #cccccc;
+            padding: 10px;
+        }
+
+        .child {
+            background-color: pink;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h3>父组件</h3>
+        <p>msg:{{ msg }}</p>
+        <!-- 
+            技术特点：事件绑定，事件触发
+                1、事件绑定
+                        在子组件标签上以 v-on 方式为子组件标签绑定自定义事件，因为组件标签定义在父组件容器中，
+                    所以事件取值为父组件方法仓库中的自定义事件；
+                        v-on为组件标签绑定的事件不会传递到组件根标签上，组件在构建组件实例时，会将定义在组件标签上
+                    事件作为当前组件的特殊自定义事件,存储到组件实例的事件对象(_events)中
+                        当对_events进行事件触发时，可为该事件方法触发定义实参，通过方法参数传递的方式完成参数传递
+                        对子组件标签绑定事件，通过修饰符 .native 可以将事件手动传递到 子组件的根标签上
+                    + 特性：如果被绑定的事件用于子组件向父组件传递数据，绑定方式时一定不能添加括号
+                    + 注意事项：在完成子组件向父组件进行数据传递方法定义时，会尽量避免使用已存在的HTML和DOM 事件名称
+                2、事件触发
+                    vue 语法定义中封装了一个实例方法 $emit ,$emit 主要为了实现对组件，自定义事件仓库_events的事件触发
+                    $emit(eventName,...arg)  
+                        + eventName 自定义事件名称=子组件标签上绑定的未被.native修饰的自定义事件
+                        + ...arg 触发emit 方法时可以根据需求传递多个实参
+                
+            自定义事件绑定时的注意事项
+                1、定义事件时不能定义大写字符，因为事件存储时会将大写字符转为小写
+                2、自定义事件可以使用特殊符号分割（不能使用.）
+                3、定义自定义事件名称时，可以使用 ： 关键字，但：关键字的使用是特例
+        -->
+        <!-- <child-comp v-on:click.native=" setMsg() "></child-comp> -->
+        <child-comp ref="aa" v-on:click=" setMsg " @loadInfo=" setMsg " @load-info=" setMsg " @update:msg=" setMsg "></child-comp>
+    </div>
+    <template id="child">
+        <div class="child">
+            <h3>子组件</h3>
+            <p>msg:{{ msg }}</p>
+            <input type="text" v-model="msg">
+            <input type="button" value="打印组件实例+组件对应的事件仓库" @click="printThis()">
+        </div>
+    </template>
+</body>
+<script>
+    Vue.component("ChildComp", {
+        template: "#child",
+        data(){
+            return {
+                msg:"子组件数据"
+            }
+        },
+        methods: {
+            printThis(){
+                console.log(this);
+                console.log(this._events);
+                console.log(this._events.click[0]);
+                // this._events.click[0](123);
+                // this._events.click[0]( this.msg );
+                this.$emit("click",this.msg,123,'aaaa');
+
+                // 获取当前组件对应父组件对象2.5新增实例
+                console.log(this.$parent);
+                this.$parent.printArg();
+            }
+        },
+        created() {
+            console.log("ChildComp");
+        },
+    });
+    new Vue({
+        el: "#app",
+        data:{
+            msg:""
+        },
+        methods: {
+            setMsg(a,b,c){
+                console.log("父组件的自定义方法",this,a,b,c);
+                this.msg = a;
+            },
+            printArg(){
+                // this.$children 表示当前组件中包含的所有子组件实例
+                console.log("printArg",this.$children);
+                // 获取的容器中定义的具有ref属性，且名称为 aa 的DOM对象或者子组件实例
+                console.log(this.$refs.aa)
+            }
+        },
+        created() {
+            console.log("new Vue");
+        },
+    });
+
+    // function show(a){
+
+    // }
+    // show(123);
+</script>
+
+</html>

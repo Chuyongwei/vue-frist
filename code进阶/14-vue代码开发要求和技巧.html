@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <p>{{ msg }}</p> -->
+        <div></div>
+        <comp-a></comp-a>
+    </div>
+</body>
+<script>
+    // vue实例创建时 配置项定义顺序
+    // 组件定义时 组件名称多单词且首字母大写
+    // 技巧：vscode 的彩虹括号
+    new Vue({
+        // 1、实例构成参数 el template
+        el:"#app",
+        // 2、局部组件
+        components:{
+            CompA:{
+                template:"<p>测试</p>"
+            }
+        }
+        // 3、数据仓库 data computed
+        // data
+        // computed
+        // 4、监视器
+        // watch
+        // 5、局部过滤器 和 局部指令
+        // filters
+        // directives
+        // 6、方法
+        // methods
+        // 7、按照顺序定义的钩子函数
+    });
+
+
+</script>
+</html>

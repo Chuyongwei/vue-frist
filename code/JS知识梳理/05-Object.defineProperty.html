@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        // 官：对目标对象添加新的属性
+        // 功能：使用该方法提供的变量劫持功能（数据劫持）
+        // Object.defineProperty(target,pop,desc)
+        //      target 定义目标操作对象
+        //      pop 取值为string，描述目标对象的中需要被操作的 属性名称
+        //      desc 取值为Object描述被操作的对象属性，需要定义那些功能
+        //          get 取值 function 实现对 对象中属性的取值操作拦截
+        //          set 取值 function 实现对 对象中属性的赋值操作拦截
+        var _msg = "默认值";
+        var temp = {
+            msg:_msg
+        }
+        var data = {};
+        // 数据的拦截操作
+        Object.defineProperty(data,"msg",{
+            get:function(){
+                console.log("data.msg的get方法");
+                return _msg;
+                // return "aaa";
+            },
+            set:function(nv){
+                // 赋值调用时，等号右侧的新值
+                console.log("data.msg的set方法",nv);
+                _msg = nv;
+            }
+        })
+        // data.msg //取值会调用 get方法
+        // data.msg = "aaa"; //赋值会调用 set方法
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

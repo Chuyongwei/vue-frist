@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 
+            <keep-alive>  作用是为存在页面动态切换的组件完成缓存操作
+                对于vue而言，无论是动态组件技术还是v-if的组件切换，默认都是直接完成组件的完整生命周期功能
+                => 组件在页面显示之前，会重写创建
+                => 组件从页面删除之后，会销毁组件
+            被定义在 keep-alive 内部的 组件切换功能，将再销毁组件，而将已经创建的组件进行缓存
+            可以绑定的属性值
+                include - 字符串或正则表达式。只有名称匹配的组件会被缓存。
+                exclude - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
+                max - 数字。最多可以缓存多少组件实例。
+         -->
+         <input type="button" value="显示组件A" @click=" name='CompA' ">
+         <input type="button" value="显示组件B" @click=" name='CompB' ">
+
+         <!-- <component :is="name"></component> -->
+         <hr>
+         <!-- <keep-alive exclude="CompB,CompA"> -->
+         <keep-alive :exclude=" /^Comp/ ">
+             <component :is="name"></component>
+         </keep-alive>
+
+    </div>
+
+    <template id="compa">
+        <div>
+            <h1>组件A</h1>
+        </div>
+    </template>
+    <template id="compb">
+        <div>
+            <h1>组件B</h1>
+        </div>
+    </template>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data:{
+            name:"CompA"
+        },
+        components: {
+            CompA: {
+                template:"#compa",
+                mounted() {
+                    console.log("mounted-CompA")
+                },
+                destroyed() {
+                    console.log("destroyed-CompA")
+                },
+            },
+            CompB: {
+                template:"#compb",
+                mounted() {
+                    console.log("mounted-CompB")
+                },
+                destroyed() {
+                    console.log("destroyed-CompB")
+                },
+            }
+        }
+    })
+
+</script>
+
+</html>

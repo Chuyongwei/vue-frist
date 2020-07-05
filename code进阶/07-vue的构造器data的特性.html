@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        function Vue(options){
+            this.data = options.data;
+        }
+
+        var vm1 = new Vue({
+            data:{
+                msg:"测试数据"
+            }
+        });
+        var vm2 = new Vue({
+            data:{
+                msg:"测试数据"
+            }
+        });
+        var vm3 = new Vue({
+            data:{
+                msg:"测试数据"
+            }
+        });
+
+        Vue.extend = function(options){
+            var vue = Vue;
+            var options = options;
+            var Temp = function(){
+                // return new vue(options);
+                return new vue(
+                    {
+                        data:options.data()
+                    }
+                )
+            }
+
+            return Temp;
+            // return function(){
+            //     return new Vue(options);
+            // }
+        }
+
+        /*
+            得到的返回值 
+            Temp = function(){
+                return new Vue(options);
+            }
+        */
+        var Temp = Vue.extend({
+            // data:{
+            //     msg:"测试数据"
+            // }
+            data:function(){
+                return {
+                    msg:"测试数据"
+                }
+            }
+        });
+        // console.log(temp)
+        var temp1 = new Temp();
+        var temp2 = new Temp();
+        var temp3 = new Temp();
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

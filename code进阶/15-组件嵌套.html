@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 页面中对于 组件标签的每次调用 ，等同于 JS 中关于 组件的 new 创建 -->
+        <comp-a></comp-a>
+        <!-- <comp-a></comp-a>
+        <comp-a></comp-a>
+        <comp-a></comp-a>
+        <comp-a></comp-a>
+        <comp-a></comp-a> -->
+        <hr>
+        <comp-c></comp-c>
+    </div>
+
+    <template id="compc">
+        <div>
+            <h4>组件c</h4>
+            <comp-d></comp-d>
+        </div>
+    </template>
+    <template id="compd">
+        <div>
+            <h4>组件d</h4>
+            <comp-c></comp-c>
+        </div>
+    </template>
+</body>
+<script>
+    // 1、自定义的组件，无论全局还是局部 都必须依赖一个其它的vue实例容器，才可以使用
+    // 2、组件标签在页面中的调用实际上就是 组件的事件创建调用
+
+    // 局部组件可以嵌套全局组件
+    // 全局组件可以定义局部组件
+    // 全局组件和全局组件可以相互嵌套
+    Vue.component("CompC",{
+        template:"#compc",
+        // 全局组件内部也可以定义局部组件
+        // components:{},
+        mounted() {
+            console.log("comp-c")
+        },
+    })
+    Vue.component("CompD",{
+        template:"#compd",
+        mounted() {
+            console.log("comp-d")
+        },
+    })
+
+    // 组件和组件直接可以直接构成嵌套关系 == 组件树  == 组件父子关系
+    new Vue({
+        el:"#app",
+        components:{
+            CompA:{
+                // template:`
+                //     <div>
+                //         <h1>组件A</h1>
+                //         <comp-b></comp-b>
+                //         <comp-c></comp-c>
+                //     </div>
+                // `,
+                template:`
+                    <div>
+                        <h1>组件A</h1>
+                        <comp-b></comp-b>
+                    </div>
+                `,
+                mounted() {
+                    console.log("组件被创建")
+                },
+                components:{
+                    CompB:{
+                        template:"<p>组件B</p>"
+                    }
+                }
+            }
+        }
+    })
+</script>
+</html>

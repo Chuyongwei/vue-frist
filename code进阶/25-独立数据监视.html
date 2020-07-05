@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>msg:{{msg}}</p>
+        <input type="text" v-model="msg">
+        <hr>
+        <comp-a></comp-a>
+    </div>
+
+    <template id="compA">
+        <div>
+            <p>msg:{{msg}}</p>
+            <input type="text" v-model="msg">
+        </div>
+    </template>
+</body>
+<script>
+    // Vue.observable({}) 将传入的对象 转换为具有 数据劫持功能的 新对象
+    //  独立出来用于控制数据监控的相关数据劫持操作方法
+    //  可以直接配合任意vue实例实现数据响应操作
+    const state = Vue.observable({
+        msg: "测试数据",
+        user: {
+            name: "tom",
+            age: 23
+        }
+    });
+    // console.log(state);
+    new Vue({
+        el: "#app",
+        // 如果直接通过为数据仓库data赋值完成数据共享
+        //      1、 当前组件无法再定义 局部监视数据
+        //      2、 以直接赋值方式完成数据仓库定义，无法完成数据流向控制
+        // data:state,
+        computed: {
+            // msg(){
+            //     return state.msg
+            // }
+            msg: {
+                get() {
+                    return state.msg;
+                },
+                set(nv) {
+                    state.msg = nv;
+                }
+            }
+        },
+        components: {
+            CompA: {
+                template: "#compA",
+                // data(){
+                //     return state;
+                // }
+                computed: {
+                    // msg(){
+                    //     return state.msg
+                    // }
+                    msg: {
+                        get() {
+                            return state.msg;
+                        },
+                        set(nv) {
+                            state.msg = nv;
+                        }
+                    }
+                },
+            }
+        }
+    })
+
+</script>
+
+</html>

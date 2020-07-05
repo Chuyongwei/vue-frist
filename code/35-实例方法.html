@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <script>
+        // 同步代码一定具有时间执行顺序
+        // 代码必须按照定义顺序先后进行执行，如果前面的代码没有执行完成，后续代码将无法执行
+        // console.log("aaaa");
+        // alert(1);
+        // console.log("bbbbb");
+        // for (let i = 0; i < 10000; i++) {
+        //    console.log(1)
+        // }
+        // console.log("aaaa");
+
+        // 异步代码，不会严格按照时间顺序执行代码
+        // 异步代码的定义先后，并不表示代码的执行先后，同时也不会影响后续代码的执行
+        //      异步代码只按照自己定义的代码来决定执行的顺序
+        // console.log("aaaa");
+        // setTimeout(function(){
+        //     alert(1);
+        //     console.log("ccc");
+        // },0)
+        // console.log("bbbbb");
+    </script>
+</head>
+<body>
+    <div id="app">
+        <h1 ref="h1dom">{{ msg }}</h1>
+        <input type="button" value="msg重新赋值" @click="setMsg()">
+        <hr>
+        <p>info:{{ info }}</p>
+        <input type="text" v-model="info">
+        <input type="button" value="开启info监控" @click="openWatch()">
+        <input type="button" value="关闭info监控" @click="closeWatch()">
+        <hr>
+        <p>{{ user }}</p>
+        <input type="text" v-model="user.name">
+        <input type="text" v-model="user.age">
+        <input type="text" v-model="user.skill">
+    </div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            msg:"测试数据",
+            info:"测试$watch",
+            // unwatch:null
+            user:{
+                name:"tom",
+                age:23,
+                skill:"html"
+            }
+        },
+        // watch 属性定义的监视器，一旦定义完成，将无法关闭
+        // watch 属性定义的监视器，一般都是一个数据变量一个监控器
+        // watch: {
+        //     msg(nv,ov){
+        //         console.log("msg发生变化")
+        //     },
+        //     // "user.age"
+        //     // "user.skill"
+        // },
+        methods: {
+            setMsg(){
+                var temp1 = this.$refs.h1dom.innerHTML;
+                console.log("赋值之前：",temp1);
+
+                // 1、对内存中msg变量进行修改 = 及时同步
+                // 2、内存变量发生变化，启动对应DOM的渲染方法，重新渲染DOM。并将渲染后的结果写到页面
+                //      = 异步执行代码
+                this.msg = "新值";
+                
+                // setTimeout(()=>{
+                //     var temp2 = this.$refs.h1dom.innerHTML;
+                //     console.log("赋值之后：",temp2);
+                // },1000)
+
+                // 将定义的方法 直接延迟到页面中DOM更新完成后执行
+                // this.$nextTick(()=>{
+                //     var temp2 = this.$refs.h1dom.innerHTML;
+                //     console.log("赋值之后：",temp2);
+                // })
+                Vue.nextTick(()=>{
+                    var temp2 = this.$refs.h1dom.innerHTML;
+                    console.log("赋值之后：",temp2);
+                })
+            },
+            openWatch(){
+                // this.$unwatch 开发者模拟自建 实例属性和方法
+                this.$unwatch = this.$watch("info",function(nv,ov){
+                    console.log("info发生变化",nv,ov,this);
+                });
+            },
+            closeWatch(){
+                this.$unwatch();
+            }
+        },
+    })
+
+    // $watch 定义的监控器，可以通过返回监控器对象进行关闭
+    // vm.$watch(expOrFn, callback, [options] );
+    //  expOrFn 描述被监控的变量
+    //          exp string描述的被监控变量名称或者对象 取值路径
+    //          fn 描述监控变量的构成执行方法
+    //  callback 是变量发生变化时执行的方法
+    //  options 监控的额外配置项  deep immediate 是否开启初始化执行
+    //  方法返回当前 变量的 监控器对象 的关闭方法，通过执行该方法可以关闭 该变量的监控
+    // var unwatch = vm.$watch("info",function(nv,ov){
+    //     console.log("info发生变化",nv,ov);
+    // });
+    // setTimeout(() => {
+    //     unwatch();
+    // }, 3000);
+
+    vm.$watch(function(){
+        // 在该函数中通过实例对象 调用方法进行拼接返回
+        // 该监视器，会直接监视方法中定义的相关变量变化
+        // return this.user.age + this.user.skill;
+        // return [this.user.age,this.user.skill];
+        return {
+            age:this.user.age,
+            skill:this.user.skill
+        }
+    },function(nv,ov){
+        // nv 和 ov 是上述方法的返回结果
+        console.log("该回调函数将会在上述方法内部定义的变量发生变换时执行",nv,ov)
+    })
+</script>
+</html>

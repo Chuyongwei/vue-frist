@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin-bottom: 500px;
+        }
+    </style>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ day | formatDate }}</p>
+        <p>{{ day | aaa }}</p>
+    </div>
+    <hr>
+    <div id="root">
+        <p>{{ day | formatDate }}</p>
+        <p>{{ day | aaa }}</p>
+    </div>
+</body>
+<script>
+    // Vue.prototype.aaa = function(){}
+    Vue.filter("aaa", function () {
+        console.log("全局过滤器方法aaa")
+    })
+    Vue.filter("formatDate", function (day, str) {
+        if (!(day instanceof Date) && typeof day == "number") {
+            day = new Date(day);
+        } else if (!(day instanceof Date)) {
+            return day;
+        }
+        let y = day.getFullYear();
+        let m = day.getMonth() + 1;
+        m = m >= 10 ? m : "0" + m;
+        let d = day.getDate();
+        d = d >= 10 ? d : "0" + d;
+
+        let h = day.getHours();
+        let mm = day.getMinutes();
+        let s = day.getSeconds();
+
+        if (!str) {
+            return y + "-" + m + "-" + d + " " + h + ":" + mm + ":" + s;
+        }
+        str = str.replace("y", y);
+        str = str.replace("m", m);
+        str = str.replace("d", d);
+        str = str.replace("h", h);
+        str = str.replace("M", m);
+        str = str.replace("s", s);
+        return str;
+    })
+
+    new Vue({
+        el: "#app",
+        data: {
+            day: new Date()
+        },
+        filters:{
+            aaa(){
+                console.log("局部过滤器aaa");
+            }
+        }
+    })
+
+    // Vue.filter("aaa",function(){
+    //     console.log("全局过滤器方法aaa")
+    // })
+
+
+    new Vue({
+        el: "#root",
+        data: {
+            day: new Date()
+        }
+    })
+</script>
+
+</html>

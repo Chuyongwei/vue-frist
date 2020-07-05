@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        .bottm-bar{
+            list-style: none;
+            padding: 0px;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            border-top: 1px solid black;
+            display: flex;
+            flex-flow: row nowrap;
+        }
+        .bottm-bar li{
+            padding: 0px;
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>根组件</h1>
+        <!-- <input type="button" value="切换组件A-B" @click=" flag = !flag"> -->
+        <input type="button" value="组件A" @click=" showComp='compA' ">
+        <input type="button" value="组件B" @click=" showComp='compB' ">
+        <input type="button" value="组件C" @click=" showComp='compC' ">
+        <hr>
+        <!-- <comp-a v-if="flag"></comp-a>
+        <comp-b v-if="!flag"></comp-b> -->
+        <comp-a v-if=" showComp=='compA' "></comp-a>
+        <comp-b v-if=" showComp=='compB' "></comp-b>
+        <comp-c v-if=" showComp=='compC' "></comp-c>
+        <hr>
+        <!-- 
+            内置全局组件-动态组件技术 - <component>
+            完成组件互斥切换操作=等效于上述代码
+            但动态组件技术可以统一维护组件切换操作
+            特性：component 组件不具有样式和结构，只是一个页面占位符
+                 占位符可以被任意全局或局部组件进行替换
+                 component 组件通过动态切换 is 属性取值，完成组件替换操作
+                 is 的取值为 组件名称
+                 虽然动态组件为占位组件，但绑定在该组件上的相关属性和方法可以直接传递给替换组件
+        -->
+        <component :is=" compName "></component>
+        <hr>
+        <ul class="bottm-bar">
+            <li @click=" compName='CompA' ">compA</li>
+            <li @click=" compName='CompB' ">compB</li>
+            <li @click=" compName='CompC' ">compC</li>
+        </ul>
+
+    </div>
+
+    <template id="compa">
+        <div>
+            <h1>组件A</h1>
+        </div>
+    </template>
+    <template id="compb">
+        <div>
+            <h1>组件B</h1>
+        </div>
+    </template>
+    <template id="compc">
+        <div>
+            <h1>组件C</h1>
+        </div>
+    </template>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            // flag: false
+            showComp:"compA",
+            compName:""
+        },
+        components: {
+            CompA: {
+                // 定义组件名称的 = 被定义了组件名称的组件 具名组件
+                // 如果没有定义name 属性 ，默认该组件名称为 组件定义时的名字 ,但该组件不是具名组件
+                // name:"aaa",
+                template: "#compa"
+            },
+            CompB: {
+                template: "#compb"
+            },
+            CompC: {
+                template: "#compc"
+            }
+        }
+    })
+</script>
+
+</html>

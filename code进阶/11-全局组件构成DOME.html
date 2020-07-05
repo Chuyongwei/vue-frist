@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./films-project/css/base.css">
+    <script src="./films-project/js/common.js"></script>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <div class="content-list">
+            <!-- 电影展示组件 start -->
+            <!-- 组件虽然是自定义标签，但依然是标签 = 正常使用所有vue语法功能 -->
+            <film-item v-for="(item, index) in 12" :key="index"></film-item>
+            <!-- 电影展示组件 end -->
+        </div>
+    </div>
+
+    <template id="filmeItem">
+        <div class="film-item">
+            <div class="film-img" style="background-image: url(./films-project/imgs/film.jpg)"></div>
+            <div class="film-title">蚁人2：黄蜂女现身</div>
+            <div class="film-source">
+                <span class="star-img open"></span>
+                <span class="star-img open"></span>
+                <span class="star-img open"></span>
+                <span class="star-img close"></span>
+                <span class="star-img close"></span>
+                <span class="star-source">7.9</span>
+            </div>
+        </div>
+    </template>
+</body>
+<script>
+    const filmItem = Vue.extend({
+        template:"#filmeItem"
+    });
+    // 如果组件定义为驼峰方式名称，页面使用时 需要转换为 连字符
+    Vue.component("filmItem",filmItem);
+
+    new Vue({
+        el:".app"
+    });
+
+</script>
+</html>

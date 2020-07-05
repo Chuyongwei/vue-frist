@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <!-- <script src="./js/vue.min.js"></script> -->
+    <script>
+        // 关闭产品信息的提示
+        Vue.config.productionTip = false;
+        // 关闭vue调试功能的使用
+        Vue.config.devtools = true;
+        // 关闭或开启控制台告警信息
+        Vue.config.silent = true;
+    </script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ msg }}</p>
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"初始化数据"
+            }
+        });
+    </script>
+</body>
+</html>

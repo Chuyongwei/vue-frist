@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        #app {
+            background-color: #cccccc;
+            padding: 10px;
+        }
+
+        .child {
+            background-color: pink;
+            padding: 20px;
+        }
+        .child1{
+            background-color: cadetblue;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h3>compA</h3>
+        <hr>
+        <comp-b></comp-b>
+        <hr>
+        <comp-c></comp-c>
+    </div>
+
+    <template id="compB">
+        <div class="child">
+            <h3>compB</h3>
+            <comp-d></comp-d>
+            <hr>
+            <comp-e></comp-e>
+        </div>
+    </template>
+    <template id="compC">
+        <div class="child">
+            <h3>compC</h3>
+        </div>
+    </template>
+    <template id="compE">
+        <div class="child1">
+            <h3>compE</h3>
+        </div>
+    </template>
+    <template id="compD">
+        <div class="child1">
+            <h3>compD</h3>
+        </div>
+    </template>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        components: {
+            compB: {
+                template: "#compB",
+                components: {
+                    compD: {
+                        template: "#compD",
+                        beforeMount() {
+                            console.log("beforeMount-CompD");
+                        },
+                        mounted() {
+                            console.log("mounted-ComD")
+                        },
+                    },
+                    compE: {
+                        template: "#compE",
+                        beforeMount() {
+                            console.log("beforeMount-CompE");
+                        },
+                        mounted() {
+                            console.log("mounted-ComE")
+                        },
+                    }
+                },
+                beforeMount() {
+                    console.log("beforeMount-CompB");
+                },
+                mounted() {
+                    console.log("mounted-ComB")
+                },
+            },
+            compC: {
+                template: "#compC",
+                beforeMount() {
+                    console.log("beforeMount-CompC");
+                },
+                mounted() {
+                    console.log("mounted-ComC")
+                },
+            }
+        },
+        beforeMount() {
+            console.log("beforeMount-CompA");
+        },
+        mounted() {
+            console.log("mounted-ComA")
+        },
+
+    })
+
+</script>
+
+</html>

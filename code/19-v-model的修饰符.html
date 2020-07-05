@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>msg:{{ msg }}</p>
+        <input type="text" v-model="msg"><br>
+        <!-- 
+            v-model 对输入型表单元素绑定的是 input 事件，及时数据处理效果
+                .lazy 修饰符主要针对的是输入型表单元素,
+                      该修饰符将v-model 绑定的 input事件 切换为change事件
+                      实现延迟的数据更新响应的效果
+        -->
+        <input type="text" v-model.lazy="msg">
+        <hr>
+        <!-- 
+            .number 修饰为数据辅助修饰符
+                将 v-model 绑定的元素输入的数据，转换为 js 的 number类型，然后进行赋值操作
+                该修饰符完成 输入值得 number 化，采用的parseFloat 转换方式
+                    + 首位为数字，后续可能出现字符 => 逐位判断逐位保留
+                    + 首位不为数字，不在进行转换操作，直接将字符串赋值给变量
+        -->
+        <p>num:{{ num }}</p>
+        <input type="number" v-model="num"><br>
+        <input type="number" v-model.number="num"><br>
+        <input type="text" v-model.number="num"><br>
+        <!-- 
+            .trim 实现对数据在向变量赋值前，去除用户输入的首位空格
+        -->
+        <p>info:{{ info }}</p>
+        <input type="text" v-model="info"><br>
+        <input type="text" v-model.trim="info">
+
+
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"数据",
+            num:10,
+            info:"info"
+        }
+    })
+
+
+</script>
+</html>

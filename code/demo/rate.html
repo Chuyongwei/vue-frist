@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <script src="../js/vue.js"></script>
+    <style>
+        .rate-body{
+            display: inline-block;
+            padding: 0px 30px;
+        }
+        .rate-content{
+            display: flex;
+            flex-flow: row-reverse;
+        }
+        .rate-content input[type=radio] {
+            border: none;
+            outline: none;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            -ms-progress-appearance: none;
+            margin: 0px;
+        }
+
+        .rate-content input[name=rate] {
+            font-family: "iconfont";
+            font-size: 30px;
+            padding-right: 10px;
+        }
+
+        .rate-content input[name=rate]::after {
+            content: "\e645";
+            color: #999;
+            transition: color 0.4s #ffa822;
+        }
+
+        .rate-content input[name=rate]:hover::after,
+        .rate-content input[name=rate]:hover~input[name=rate]::after,
+        .rate-content input[name=rate]:checked::after,
+        .rate-content input[name=rate]:checked~input[name=rate]::after
+        {
+            content: "\e73c";
+            color: #ffa822;
+        }
+        .rate-content input[name=rate]:hover{
+            transform: scale(1.4);
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>num:{{ num }}</p>
+        <div class="rate-body" @click.self="num=0">
+            <div class="rate-content">
+                <input type="radio" name="rate" value="5" v-model.number="num">
+                <input type="radio" name="rate" value="4" v-model.number="num">
+                <input type="radio" name="rate" value="3" v-model.number="num">
+                <input type="radio" name="rate" value="2" v-model.number="num">
+                <input type="radio" name="rate" value="1" v-model.number="num">
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            num:0
+        }
+    })
+
+
+</script>
+</html>

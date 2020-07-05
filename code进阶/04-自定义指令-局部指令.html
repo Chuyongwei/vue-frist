@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="referrer" content="never">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-dirctivea:aa.b.c=" msg "></p>
+        <input type="text" v-model="msg">
+    </div>
+    <hr>
+    <!-- 
+    <div id="root">
+        <p v-dirctivea:aa.b.c=" msg ">aaa</p>
+        <input type="text" v-model="msg">
+    </div> 
+    -->
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"变量"
+        },
+        // 以构建vue实例的关键指令定义属性进行局部描述
+        directives:{
+            // key 自定义局部指令的名称
+            // value 自定义局部指令的处理方法 definition(el,binding)
+            dirctivea:function(el,binding,newVnode,oldVnode){
+                console.log("局部指令：",el,binding);
+                el.textContent = binding.value;
+                console.log(newVnode,oldVnode);
+            },
+            // dirctiveb(){}
+        }
+    });
+    // new Vue({
+    //     el:"#root",
+    //     data:{
+    //         msg:"变量"
+    //     }
+    // })
+</script>
+</html>

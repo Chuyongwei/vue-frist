@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        .tipbox{
+            position:fixed;
+            right: 10px;
+            top: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+        }
+    
+    </style>
+</head>
+<body>
+    <input type="button" value="打开提示窗" onclick="showTip()">
+    <template id="tip">
+        <div class="tipbox">
+            <p>{{ msg }}</p>
+            <input type="text" v-model="msg">
+        </div>
+    </template>
+</body>
+<script>
+    function showTip(){
+        var tip = new Vue({
+            template:"#tip",
+            data:{
+                msg:"初始值"
+            }
+        });
+        // $mount 函数可以实现 空挂载
+        // 可以先创建具有 模板容器的vue实例，等待后续写入页面
+        console.log(tip.$el);
+        tip.$mount();
+        console.log(tip.$el);
+        document.body.appendChild(tip.$el);
+        setTimeout(function(){
+            document.body.removeChild(tip.$el);
+            tip.$destroy();
+            // $destroy 只销毁对应的vue实例，但不会移除实例页面容器
+        },3000);
+    }
+
+
+</script>
+</html>

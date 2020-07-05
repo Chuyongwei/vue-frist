@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+        .p{
+            height: 40px;
+            border: 1px solid black;
+        }
+    </style>
+    <script>
+        function setInnerText(pDom){
+            /*
+                js环境下，DOM元素的 innerText 取值只能为string值
+                js 在完成 DOM的innerText 属性赋值时，会将值转为 string类型
+                  js 通过调用 原型上 toString() 方法或者完成 String()强制类型转换
+                  将变量转为string类型
+                对于数组变量 调用是 Array 重写的toString()
+                null|undefined 转换为 string 执行强制类型转换 String(null|undefined)
+                  JS 对于 DOM 的 innerText 属性的操作 会判断值为null 时输出“”
+            */
+            // pDom.innerText = "字符串";
+            // pDom.innerText = 123;
+            // pDom.innerText = true;
+            // pDom.innerText = [1,2,3,3,4]
+            // pDom.innerText = {
+            //     name:"tom"
+            // }
+            // pDom.innerText = null;
+            // pDom.innerText = undefined;
+
+            // DOM 元素上 属性 textContent 和 innerText 属性功能基本一致
+            //      唯一的区别 在于对JS中 转义符号 \n 的转换方式
+            //      innerText 会将换行符转为 <br> 标签
+            //      textContent 不会转换 换行符号 （HTML会将换行识别为 一个空格）
+            // pDom.innerText = "aaaaa\nbbbbbbb";
+            pDom.textContent = "aaaaa\nbbbbbbb";
+        }
+    </script>
+</head>
+<body>
+    <pre>
+        HTML 页面可以展示的数据
+    </pre>
+    <p class="p" onclick="setInnerText(this)"></p>
+    <hr>
+    <div id="app">
+        <pre>
+            插值表达式在vue框架中，主要完成将实例数据仓库中的变量写入到页面中
+            + 如果页面插值表达式定义的变量并不存在：
+                - vue提示（错误提示） "info" is not defined  某个方法某个变量未定义
+            + 如果定义的变量为 数组 或 对象，页面中想要获取数组和对象中的相关值
+                - vue语法中 插值表达式可以完全支持 JS 的 变量调用语法
+            + vue 在执行 插值表达式功能是，会将非字符串数据转换为 string 类型
+                - vue 的插值表达式调用 自定义的toString 方法
+                - vue 项目向标签进行内容写入时，调用的时DOM元素 textContent 属性
+        </pre>
+        <p>{{ msg }}</p>
+        <!-- <p>{{ info }}</p> -->
+        <p>arr[0]:{{ arr[0] }}</p>
+        <p>user.name:{{ user.name }}</p>
+        <p>user['name']:{{ user['name'] }}</p>
+        <hr>
+        <p>字符串类型：{{ msg }}</p>
+        <p>数值类型：{{ num }}</p>
+        <p>布尔类型:{{ flag }}</p>
+        <p>数组类型：{{ arr }}</p>
+        <p>对象类型：{{ user }}</p>
+        <p>null:{{ arg1 }}</p>
+        <p>undefined:{{ arg2 }}</p>
+        <p>时间对象：{{ day }}</p>
+        <p>带换行符号的字符串：{{ str1 }}</p>
+        <p>带标签的字符串：{{ str2 }}</p>
+        <hr>
+        <p name="{{ msg }}">为属性绑定</p>
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"字符串",
+                num:123,
+                flag:true,
+                arr:[1,2,3,4],
+                user:{
+                    name:"tom",
+                    age:23
+                },
+                arg1:null,
+                arg2:undefined,
+                day:new Date(),
+                str1:"aaaa\nbbbbb",
+                str2:"<p>测试</p>"
+            }
+        })
+    </script>
+</body>
+</html>

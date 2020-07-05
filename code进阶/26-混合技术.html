@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>info:{{ info }}</p>
+        <input type="text" v-model="info">
+        <p>msg:{{ msg }}</p>
+        <input type="button" value="执行混入方法" @click="printThis()">
+        <hr>
+        <comp-a></comp-a>
+    </div>
+
+    <template id="compA">
+        <div>
+            <p>info:{{ info }}</p>
+            <input type="text" v-model="info">
+            <input type="button" value="执行混入方法" @click="printThis()">
+        </div>
+    </template>
+</body>
+<script>
+    // Vue.mixin(options) 为所有vue实例全局混入 统一定义
+    //      options 构建vue实例时的相关配置（数据方法钩子函数等）
+    //              混入 data 时必须使用方法返回对象方式
+    // 混入技术可以认为是直接为vue创建前，定义的默认构建参数
+    // 混入技术是可以进行预定义配置和自定义配置的整合
+    // 混入技术中如果混入了实例的执行方法，执行方法中的this指向于当前实例
+    Vue.mixin({
+        data() {
+            return {
+                info: "全局混入变量"
+            }
+        },
+        methods: {
+            printThis() {
+                console.log("混入方法", this)
+            }
+        },
+        mounted() {
+            console.log("混入的mounted钩子函数");
+        },
+    });
+    const mixOne = {
+        data() {
+            return {
+                user: {
+                    name: "tom"
+                }
+            }
+        }
+    }
+    const minTwo = {
+        methods: {
+            show() {
+                console.log("show");
+            }
+        },
+    }
+
+    new Vue({
+        // mixins 描述局部需要装载的混入功能
+        mixins: [mixOne, minTwo],
+        el: "#app",
+        data: {
+            msg: "msg变量"
+        },
+        mounted() {
+            console.log("new Vue")
+        },
+        components: {
+            CompA: {
+                mixins: [mixOne],
+                template: "#compA",
+                mounted() {
+                    console.log("CompA")
+                },
+            }
+        }
+    })
+
+</script>
+
+</html>

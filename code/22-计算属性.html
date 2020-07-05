@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>msg:{{ msg }}</p>
+        <input type="text" v-model="msg">
+        <p>getMsg:{{ getMsg }}</p>
+        <hr>
+        <div>
+            <label for="username">用户名称：</label>
+            <input type="text" v-model="username">
+            <!-- <span style="color:red">不能为空|长度在6-8之间|不能包含特殊字符</span> -->
+            <span style="color:red">{{ username.length==0?'不能为空':username.length<6||username.length>10?'长度在6-10之间':'' }}</span>
+            <!-- <span style="color:red">{{ username.length<=6||username.length>=10?'长度在6-10之间':'' }}</span> -->
+        </div>
+        <hr>
+        <div>
+            <label for="username">用户名称：</label>
+            <input type="text" v-model="username">
+            <span :style=" `color:${ checkUsername.flag?'green':'red' }` ">{{ checkUsername.msg }}</span>
+        </div>
+        <hr>
+        <p>还可以输入{{ 30 - info.length }}个字</p>
+        <textarea cols="30" rows="10" v-model="getInfo"></textarea>
+        <textarea cols="30" rows="10" :value="getInfo" @input="getInfo=$event.target.value"></textarea>
+
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            msg:"自定义字符串",
+            username:"",
+            info:""
+        },
+        computed: {
+            // 计算属性单独存在没有意义
+            // 计算属性一般配合 data 中的数据变量使用
+            getMsg(){
+                console.log(this.msg);
+                // return "自定义字符串";
+                return this.msg + "-计算属性后缀";
+            },
+            checkUsername(){
+                console.log("checkUsername")
+                if(this.username.length==0){
+                    return {
+                        flag:false,
+                        msg:"不能为空"
+                    }
+                }
+                if(this.username.length<6||this.username.length>10){
+                    return {
+                        flag:false,
+                        msg:"长度必须在6~10之间"
+                    };
+                }
+                if(/,|\./.test(this.username)){
+                    return {
+                        flag:false,
+                        msg:"用户名不能包含,或者.号"
+                    }
+                }
+                return {
+                    flag:true,
+                    msg:"用户名合法"
+                };
+            },
+            // msg(){ }
+            getInfo:{
+                get(){
+                    return this.info;
+                },
+                set(nv){
+                    // if(nv.length<=30){
+                    //     this.info = nv;
+                    // }
+                    // this.info = nv.substring(0,30);
+                    this.info = nv;
+                    if(nv.length>30){
+                        this.info = nv.substring(0,30);
+                    }
+                }
+            }
+        },
+    });
+</script>
+</html>
